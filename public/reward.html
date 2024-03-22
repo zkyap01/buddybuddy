@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Setup</title>
+
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/web3/web3.min.js"></script>
+    <script src="js/env.js"></script>
+</head>
+
+<body>
+    <section id="divNavPage"></section>
+    <section class="container mt-5" style="max-width: 540px;">
+        <div class="alert d-none" role="alert" id="divStatus">
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="txtName" class="form-label">Name</label>
+                    <input class="form-control" id="txtName">
+                </div>
+                <div class="mb-3">
+                    <label for="txtAddresses" class="form-label">Addresses</label>
+                    <input class="form-control" id="txtAddresses">
+                </div>
+                <div class="mb-3">
+                    <button id="btnSubmit" class="btn btn-primary" onclick="">Send</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+<script src="js/master.js"></script>
+<script>
+    const txtAddresses = document.getElementById("txtAddresses").value; // Update with your contract address
+    const txtName = document.getElementById("txtName").value; // Update with your contract address
+    
+    import { mintclub } from 'mint.club-v2-sdk'
+
+    const MortyMee6Nft = mintclub.network('base').nft('MnM-NFT') 
+    
+    // 🚀 Deploying $MNM-NFT tokens
+    await MortyMee6Nft.create({
+        name: 'Morty and Mee6',
+        // Base Network WETH
+        reserveToken: {
+            address: '0x4200000000000000000000000000000000000006',
+            decimals: 18,
+        },
+        // Bonding curve data
+        curveData: {
+            curveType: 'EXPONENTIAL',
+            stepCount: 10, // how granular the curve is
+            maxSupply: 10_000, // NFT max supply
+            initialMintingPrice: 0.01, // starting price, 0.01 WETH
+            finalMintingPrice: 0.1, // ending price, 0.1 WETH
+            creatorAllocation: 100, // initial supply to the deployer
+        },
+        metadataUrl: ''
+    })
+
+</script>
+
+</html>
