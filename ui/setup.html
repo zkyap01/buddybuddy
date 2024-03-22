@@ -21,11 +21,15 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="" class="form-label">Contract Name</label>
+                    <label for="" class="form-label" id="txtProjectType">Project Name</label>
                     <input class="form-control" id="inputName">
                 </div>
                 <div class="mb-3">
-                    <button id="btnCreate" class="btn btn-primary" onclick="deployContract()">Create</button>
+                    <label for="" class="form-label" id="txtRewardType">Reward Type</label>
+                    <input class="form-control" id="inputName">
+                </div>
+                <div class="mb-3">
+                    <button id="btnCreate" class="btn btn-primary" onclick="deployContract()">setup</button>
                 </div>
             </div>
         </div>
@@ -47,7 +51,10 @@
             const accounts = await web3.eth.getAccounts();
             const deployedContract = await contract.deploy({
                 data: bytecode,
-                arguments: [] // If your constructor has arguments, pass them here
+                arguments: [{
+                    txtProjectType:document.getElementById('txtProjectType').value,
+                    txtRewardType:document.getElementById('txtRewardType').value
+                }] // If your constructor has arguments, pass them here
             }).send({
                 from: accounts[0], // Update with the account you want to deploy from
                 gas: 1500000 // Adjust gas value as needed
