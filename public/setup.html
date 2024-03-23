@@ -337,7 +337,7 @@
             $.ajax({
                 url: mintclub_url, // URL of the API endpoint
                 method: 'GET', // HTTP method
-                data: {, name: txtName }, // Pass parameters here
+                data: { name: txtName }, // Pass parameters here
                 success: function (res) {
                     console.log('Done:', res);
                     divStatus.innerHTML = 'Done';
