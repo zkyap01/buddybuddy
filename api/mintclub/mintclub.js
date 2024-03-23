@@ -64,7 +64,7 @@ const MortyMee6Nft = mintclub
   //     'https://sphinx.shardeum.org',
   //   ]
   // }) 
-  .nft('MnM-NFT');
+  
 
 async function deployNFT( name) {
   try {
@@ -81,23 +81,23 @@ async function deployNFT( name) {
   
 
     // 🚀 Deploying $MNM-NFT tokens
-    await MortyMee6Nft.create({
-      name: "BB1",
+    await MortyMee6Nft.nft(name).create({
+      name: name,
       // Base Network WETH
       reserveToken: {
         address: '0xb16f35c0ae2912430dac15764477e179d9b9ebea',
         decimals: 18,
       },
       // Bonding curve data
-      curveData: {
+      curveData : {
         curveType: 'EXPONENTIAL',
-        stepCount: 10, // how granular the curve is
+        stepCount: 5, // how granular the curve is
         maxSupply: 10_000, // NFT max supply
         initialMintingPrice: 0.01, // starting price, 0.01 WETH
         finalMintingPrice: 0.1, // ending price, 0.1 WETH
         creatorAllocation: 100, // initial supply to the deployer
       },
-      metadataUrl: 'https://w0.peakpx.com/wallpaper/607/199/HD-wallpaper-evening-pic-natura.jpg',
+      metadataUrl: 'https://w0.peakpx.com/wallpaper/607/199/HD-wallpaper-evening-pic-natura1.jpg',
       onSuccess: function(receipt) {
         // Your logic here
         console.log('s1: ' + receipt);
@@ -105,7 +105,7 @@ async function deployNFT( name) {
       onError: (error) => {
         console.error('e1', error);
       } 
-    });
+    }, value=400000);
 
  
     console.log('NFT deployed successfully.');
@@ -166,7 +166,7 @@ router.get('/', exampleMiddleware, (req, res) => {
 
     // Call the function to deploy the NFT
     deployNFT(name);
-    res.json("Test End");
+    res.json("Test deployNFT End");
 });
 
 router.get('/gettotalsupply', exampleMiddleware, (req, res) => {
