@@ -85,7 +85,8 @@ async function deployNFT(name, symbol) {
       name: "TPH",
       // Base Network WETH
       reserveToken: {
-        address: '0xb16f35c0ae2912430dac15764477e179d9b9ebea',
+        // address: '0xb16f35c0ae2912430dac15764477e179d9b9ebea',
+        address: '0x999b45bb215209e567faf486515af43b8353e393',
         decimals: 18,
       },
       // Bonding curve data
