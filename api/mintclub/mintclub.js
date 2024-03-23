@@ -37,7 +37,7 @@ const tmpname = "zkkks"
 const account = privateKeyToAccount(pk)
 const client = createWalletClient({
   account,
-  chain: baseSepolia,
+  chain: sepolia,
   transport: http('https://sepolia.base.org')
 }).extend(publicActions)
 
@@ -85,8 +85,7 @@ async function deployNFT(name, symbol) {
       name: "TPH",
       // Base Network WETH
       reserveToken: {
-        // address: '0xb16f35c0ae2912430dac15764477e179d9b9ebea',
-        address: '0x999b45bb215209e567faf486515af43b8353e393',
+        address: '0xb16f35c0ae2912430dac15764477e179d9b9ebea',
         decimals: 18,
       },
       // Bonding curve data
@@ -116,7 +115,7 @@ async function deployNFT(name, symbol) {
 }
 
 async function nftMint() {
-  await mintclub.network(baseSepolia.id).token('0x0b697d5d7265969b80b7a004eae551b9953f69a3').sell({
+  await mintclub.network(sepolia.id).token('0x0b697d5d7265969b80b7a004eae551b9953f69a3').sell({
     amount: 1,
     recipient: '0x348b735403992203a768751c32871E2e4f462Bc7',
     onSuccess: function(receipt) {
