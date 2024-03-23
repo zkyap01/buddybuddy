@@ -3,6 +3,7 @@ const {
   chainStringToId,
   generateCreateArgs,
   getMintClubContractAddress,
+  wei,
   mintclub,
 } = require('mint.club-v2-sdk');
 const { createWalletClient, custom, http, publicActions } = require('viem');
@@ -106,10 +107,19 @@ async function deployNFT(addresses, name) {
       } 
     });
 
+ 
     console.log('NFT deployed successfully.');
   } catch (error) {
     console.error('Error deploying NFT:', error);
   }
+}
+
+async function nftMint(addresses, name) {
+  await mintclub.network(sepolia).token('0xf424B5C285AaC51D5B3Ee594F62f82E25e41479c').buy({
+    amount: wei(1, 18),
+  })
+
+  console.log('NFT minted successfully.');
 }
 
 async function getElementByIdotalSupply () {
@@ -146,6 +156,15 @@ router.get('/', exampleMiddleware, (req, res) => {
     res.json("Test End");
 });
 
+router.get('/create', exampleMiddleware, (req, res) => {
+  // Retrieve query parameters
+  const addresses = req.query.addresses;
+  const name = req.query.name;
+
+   // Call the function to deploy the NFT
+   nftMint(addresses, name);
+   res.json("Test End");
+});
 
 router.get('/gettotalsupply', exampleMiddleware, (req, res) => {
    // Call the function to deploy the NFT
