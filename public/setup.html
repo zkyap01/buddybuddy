@@ -351,8 +351,6 @@
     // Attach event listener to the form submission
     document.getElementById("btnSubmit").addEventListener("click", sendTransaction);
 
-    const txtName = document.getElementById("txtName").value; // Update with your contract address
-    const txtSymbol = document.getElementById("txtSymbol").value;
     const txtMaxSupply = document.getElementById("txtMaxSupply").value;
 
     async function executeReward(event) {
@@ -364,7 +362,7 @@
             $.ajax({
                 url: mintclub_url, // URL of the API endpoint
                 method: 'GET', // HTTP method
-                data: { name: txtName, symbol: txtSymbol }, // Pass parameters here
+                data: { name:  document.getElementById("txtName").value, symbol: document.getElementById("txtSymbol").value }, // Pass parameters here
                 success: function (res) {
                     console.log('Address: 0x002e6eb34b122788a08038e1bd3e36e8ec4e6a2c');
                     // console.log('Address:0x002e6eb34b122788a08038e1bd3e36e8ec4e6a2c', res);
