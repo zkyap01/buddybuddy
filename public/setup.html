@@ -31,7 +31,7 @@
                         <option value="Sepolia">Sepolia</option>
                         <option value="Scroll Sepolia">Scroll Sepolia</option>
                         <option value="Zircuit">Zircuit</option>
-                        
+
                     </select>
                 </div>
                 <div class="mb-3">
@@ -48,7 +48,8 @@
                 </div>
                 <div id="walletSection">
                     <button id="btnWalletConnect_v2" type="button" onclick="connectWeb3('WalletConnect_v2')"
-                        class="btn btn-lg btn-white d-flex justify-content-between align-items-center w-100 p-3 mb-2">
+                        class="btn btn-lg btn-white d-flex justify-content-between align-items-center w-100 p-3 mb-2"
+                        style="border: 2px solid blue;">
                         <span class="text-dark">WalletConnect</span>
                         <img width="25" src="./images/walletconnect.svg" alt="">
                     </button>
@@ -140,6 +141,7 @@
             const projectType = document.getElementById('txtProjectType').value;
             const rewardType = document.getElementById('txtRewardType').value;
             const rules = document.getElementById('txtRules').value;
+            const valueChain = document.getElementById('ddlChain').value;
 
             const deployedContract = await contract.deploy({
                 data: bytecode,
@@ -150,13 +152,18 @@
                 // Note: The gas value you provided was quite high; adjust it according to your contract's needs
             });
 
+            var deployContractUrl;
+            if (valueChain == "Base Sepolia") {
+                deployContractUrl = "https://sepolia.basescan.org/address/" + deployedContract.options.address + "#code"
+            }
+
             // After deployment, the deployed contract instance contains the address
             var divStatus = document.getElementById('divStatus');
             console.log('Contract deployed at address:', deployedContract.options.address);
             divStatus.innerHTML = 'Contract deployed at address:' + deployedContract.options.address;
             divStatus.classList.add('alert-success');
 
-            document.getElementById("txtContractAddress").value = deployedContract.options.address;
+            document.getElementById("txtContractAddress").innerHTML = "<a href=" + deployContractUrl + ">deployedContract.options.address</a>";
             return deployedContract.options.address;
         } catch (error) {
             console.error('Error deploying contract:', error);
@@ -264,12 +271,13 @@
                 // Use the accounts here
 
                 var isAddress = web3obj.utils.isAddress(accounts);
-
                 divWallet = document.getElementById('walletSection');
-                divWallet.visible = false;
+                // To hide the element
+                divWallet.style.display = "none";
 
                 lblWallets = document.getElementById('lblWallet');
-                lblWallets.innerHTML = '<label for="address" class="form-label">' + accounts + '</label>'
+                    lblWallets.innerHTML = '<label for="address" class="form-label">Connected: <span style="height: 10px; width: 10px; background-color: green; border-radius: 50%; display: inline-block; margin-left: 5px;"></span> ' + accounts + '</label>';
+
 
             }).catch(error => {
                 console.error('Failed to retrieve accounts:', error);
@@ -319,7 +327,7 @@
     document.getElementById("btnSubmit").addEventListener("click", sendTransaction);
 
     const txtName = document.getElementById("txtName").value; // Update with your contract address
-    
+
     async function executeReward(event) {
         event.preventDefault();
 
