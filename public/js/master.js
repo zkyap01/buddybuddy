@@ -25,4 +25,4 @@ if (divNavPage) {
     divNavPage.appendChild(child);
 }
 
-const mintclub_url = "http://localhost:3000/mintclub/"
+const mintclub_url = "https://45.76.188.177:3000/mintclub/"
