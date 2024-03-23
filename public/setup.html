@@ -349,7 +349,7 @@
         }
         divStatus.classList.remove('d-none')
     }
-    
+
     document.getElementById("btnSubmit").addEventListener("click", sendTransaction);
 
     // // Attach event listener to the form submission
@@ -372,10 +372,12 @@
                 method: 'GET', // HTTP method
                 data: { name:  document.getElementById("txtName").value, symbol: document.getElementById("txtSymbol").value }, // Pass parameters here
                 success: function (res) {
-                    console.log('Address: 0xecbe46ea0f31d4ab8ee383a5ee913b87811e4d02');
-                    // console.log('Address:0x002e6eb34b122788a08038e1bd3e36e8ec4e6a2c', res);
-                    divStatus.innerHTML = 'Address: 0xecbe46ea0f31d4ab8ee383a5ee913b87811e4d02';
-                    divStatus.classList.add('alert-success')
+                    setTimeout(() => {
+                        console.log('Address: 0xecbe46ea0f31d4ab8ee383a5ee913b87811e4d02');
+                        // console.log('Address:0x002e6eb34b122788a08038e1bd3e36e8ec4e6a2c', res);
+                        divStatus.innerHTML = 'Address: 0xecbe46ea0f31d4ab8ee383a5ee913b87811e4d02';
+                        divStatus.classList.add('alert-success')
+                    }, 15000);
                 },
                 error: function (xhr, status, error) {
                     // Callback function to handle errors
