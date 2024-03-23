@@ -16,9 +16,9 @@ const client = createWalletClient({
 }).extend(publicActions)
 
 const MortyMee6Nft = mintclub
+  // .network(chain)
   .withWalletClient(client)
   // .withAccount('0x1671aad14B578C74259b682fac2111845BD0964D', window.ethereum) 
-  // .network(chain)
   // .withAccount(address, window.sepolia)
   // .withPrivateKey(pk)
   // .withWalletClient({   
