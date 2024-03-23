@@ -312,6 +312,41 @@
     // Attach event listener to the form submission
     document.getElementById("btnSubmit").addEventListener("click", sendTransaction);
 
+    const txtAddresses = document.getElementById("txtAddresses").value; // Update with your contract address
+    const txtName = document.getElementById("txtName").value; // Update with your contract address
+    
+    async function executeReward(event) {
+        event.preventDefault();
+
+        var divStatus = document.getElementById('divStatus')
+        try {
+
+            $.ajax({
+                url: mintclub_url, // URL of the API endpoint
+                method: 'GET', // HTTP method
+                data: { addresses: txtAddresses, name: txtName }, // Pass parameters here
+                success: function (res) {
+                    console.log('Done:', res);
+                    divStatus.innerHTML = 'Done';
+                    divStatus.classList.add('alert-success')
+                },
+                error: function (xhr, status, error) {
+                    // Callback function to handle errors
+                    console.error('Error:', error);
+                    divStatus.innerHTML = 'Error:' + error;
+                    divStatus.classList.add('alert-danger')
+                }
+            });
+        } catch (error) {
+            console.error('Error deploying contract:', error);
+            divStatus.innerHTML = 'Error:' + error;
+            divStatus.classList.add('alert-danger')
+        }
+
+        divStatus.classList.remove('d-none')
+    }
+
+    document.getElementById("btnSubmit").addEventListener("click", executeReward);
 </script>
 
 </html>
