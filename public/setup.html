@@ -63,7 +63,7 @@
         </div>
     </section>
 
-    <section id="interact" class="container mt-5" style="max-width: 540px;" visible="false">
+    <section id="interact" class="container mt-5 d-none" style="max-width: 540px;" visible="false">
         <div class="alert d-none" role="alert" id="divStatus2">
         </div>
         <div class="card">
@@ -170,9 +170,10 @@
             });
 
             var deployContractUrl;
-            if (valueChain == "Base Sepolia") {
-                deployContractUrl = "https://sepolia.basescan.org/address/" + deployedContract.options.address + "#code"
-            }
+            // if (valueChain == "Base Sepolia") {
+            //     deployContractUrl = "https://sepolia.basescan.org/address/" + deployedContract.options.address + "#code"
+            // }
+            deployContractUrl = "https://sepolia.basescan.org/address/" + deployedContract.options.address + "#code"
 
             // After deployment, the deployed contract instance contains the address
             console.log('Contract deployed at address:', deployedContract.options.address);
@@ -207,8 +208,8 @@
     async function initWalletConnect_v2() {
         walletConnectObj_v2 = await WalletConnectProvider_v2.init({
             projectId: 'ad2cbbc1810a6036a4c3c0c8042073c3', // REQUIRED your projectId
-            // chains: [84532],
-            chains: [11155111],
+            chains: [84532],
+            //chains: [11155111],
             showQrModal: true,
             rpcMap:
             {
@@ -425,13 +426,28 @@
 
     document.getElementById("btnCreate").addEventListener("click", executeReward);
     document.getElementById("btnDistribute").addEventListener("click", distributeReward);
-
+    
     async function changeTab(event) {
         section_setup.classList.add("d-none")
         section_interact.classList.add("d-none")
         section_reward.classList.remove("d-none")
     }
+
+    async function changeTabStore(event) {
+        section_setup.classList.add("d-none")
+        section_interact.classList.remove("d-none")
+        section_reward.classList.add("d-none")
+    }
+
+    async function changeTabSetUp(event) {
+        section_setup.classList.remove("d-none")
+        section_interact.classList.add("d-none")
+        section_reward.classList.add("d-none")
+    }
+
     document.getElementById("btnChangeReward").addEventListener("click", changeTab);
+    document.getElementById("btnChangeStore").addEventListener("click", changeTabStore);
+    document.getElementById("btnChangeSetUp").addEventListener("click", changeTabSetUp);
 
 </script>
 
