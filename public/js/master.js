@@ -7,10 +7,7 @@ const navPage = `
                         <a class="nav-link active" href="setup.html">Setup</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="interact.html">Store</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="reward.html">Reward 1</a>
+                        <a class="nav-link active" href="reward.html">Reward</a>
                     </li>
                 </ul>
             </div>
