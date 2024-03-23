@@ -154,6 +154,7 @@
             }).send({
                 from: accounts[0], // Use the first account to deploy
                 gas: 2000000, // Adjust the gas limit as necessary
+                gas: 2000000, // Adjust the gas limit as necessary
                 // Note: The gas value you provided was quite high; adjust it according to your contract's needs
             });
 
@@ -195,7 +196,7 @@
     async function initWalletConnect_v2() {
         walletConnectObj_v2 = await WalletConnectProvider_v2.init({
             projectId: 'ad2cbbc1810a6036a4c3c0c8042073c3', // REQUIRED your projectId
-            chains: [11155111],
+            chains: [84532],
             showQrModal: true,
             rpcMap:
             {
@@ -280,7 +281,7 @@
                 divWallet.style.display = "none";
 
                 lblWallets = document.getElementById('lblWallet');
-                    lblWallets.innerHTML = '<label for="address" class="form-label">Connected: <span style="height: 10px; width: 10px; background-color: green; border-radius: 50%; display: inline-block; margin-left: 5px;"></span> ' + accounts + '</label>';
+                lblWallets.innerHTML = '<label for="address" class="form-label">Connected: <span style="height: 10px; width: 10px; background-color: green; border-radius: 50%; display: inline-block; margin-left: 5px;"></span> ' + accounts + '</label>';
 
 
             }).catch(error => {
@@ -308,10 +309,18 @@
         try {
             // Get the input value from the form
             const inputValue = document.getElementById("txtBlockData").value;
+            let hex = web3.utils.asciiToHex(inputValue, 64);
+
+            // Pad the string to make it 32 bytes long
+            let paddedHex = Web3.utils.padLeft(hex);; // 64 hex characters = 32 bytes
+
+            if (paddedHex.length > 66) {
+                paddedHex = paddedHex.slice(0, 66);
+            }
 
             // Send transaction to the contract function
             const accounts = await web3obj.eth.getAccounts();
-            await contract.methods.writeBlobData(inputValue).send({
+            await contract.methods.writeBlobData(paddedHex).send({
                 from: accounts[0], // Update with the account you want to send from
                 gas: 1500000 // Adjust gas value as needed
             });
