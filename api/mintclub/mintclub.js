@@ -66,7 +66,7 @@ const MortyMee6Nft = mintclub
   // }) 
   
 
-async function deployNFT( name) {
+async function deployNFT(name, symbol) {
   try {
     // const creationFee = await mintclub.network('sepolia').bond.getCreationFee();
 
@@ -81,7 +81,7 @@ async function deployNFT( name) {
   
 
     // 🚀 Deploying $MNM-NFT tokens
-    await MortyMee6Nft.nft(name).create({
+    await MortyMee6Nft.nft(symbol).create({
       name: name,
       // Base Network WETH
       reserveToken: {
@@ -163,9 +163,10 @@ router.get('/create', exampleMiddleware, (req, res) => {
 router.get('/', exampleMiddleware, (req, res) => {
    // Retrieve query parameters
    const name = req.query.name;
+   const symbol = req.query.symbol;
 
     // Call the function to deploy the NFT
-    deployNFT(name);
+    deployNFT(name, symbol);
     res.json("Test deployNFT End");
 });
 
