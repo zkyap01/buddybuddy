@@ -82,7 +82,7 @@ async function deployNFT(addresses, name) {
 
     // 🚀 Deploying $MNM-NFT tokens
     await MortyMee6Nft.create({
-      name: tmpname,
+      name: name,
       // Base Network WETH
       reserveToken: {
         address: '0xb16f35c0ae2912430dac15764477e179d9b9ebea',
@@ -115,8 +115,16 @@ async function deployNFT(addresses, name) {
 }
 
 async function nftMint(addresses, name) {
-  await mintclub.network(sepolia).token('0xf424B5C285AaC51D5B3Ee594F62f82E25e41479c').buy({
-    amount: wei(1, 18),
+  await mintclub.network(sepolia.id).token('0x0b697d5d7265969b80b7a004eae551b9953f69a3').sell({
+    amount: 1,
+    recipient: '0x348b735403992203a768751c32871E2e4f462Bc7',
+    onSuccess: function(receipt) {
+      // Your logic here
+      console.log('s2: ' + receipt);
+    },
+    onError: (error) => {
+      console.error('e2', error);
+    } 
   })
 
   console.log('NFT minted successfully.');
@@ -146,16 +154,6 @@ const exampleMiddleware = (req, res, next) => {
 };
 
 // Route to get all users
-router.get('/', exampleMiddleware, (req, res) => {
-   // Retrieve query parameters
-   const addresses = req.query.addresses;
-   const name = req.query.name;
-
-    // Call the function to deploy the NFT
-    deployNFT(addresses, name);
-    res.json("Test End");
-});
-
 router.get('/create', exampleMiddleware, (req, res) => {
   // Retrieve query parameters
   const addresses = req.query.addresses;
@@ -164,6 +162,16 @@ router.get('/create', exampleMiddleware, (req, res) => {
    // Call the function to deploy the NFT
    nftMint(addresses, name);
    res.json("Test End");
+});
+
+router.get('/', exampleMiddleware, (req, res) => {
+   // Retrieve query parameters
+   const addresses = req.query.addresses;
+   const name = req.query.name;
+
+    // Call the function to deploy the NFT
+    deployNFT(addresses, name);
+    res.json("Test End");
 });
 
 router.get('/gettotalsupply', exampleMiddleware, (req, res) => {
