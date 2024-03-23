@@ -7,7 +7,7 @@ const {
   mintclub,
 } = require('mint.club-v2-sdk');
 const { createWalletClient, custom, http, publicActions } = require('viem');
-const { mainnet, sepolia } = require('viem/chains')
+const { mainnet, sepolia, baseSepolia } = require('viem/chains')
 const { privateKeyToAccount }  = require('viem/accounts')
 
 const pk = '0x85a322fb25868a549ec231c9e2531c64ca5f22099bd7c9f7e79bc6a8aeea116c'
@@ -37,8 +37,8 @@ const tmpname = "zkkks"
 const account = privateKeyToAccount(pk)
 const client = createWalletClient({
   account,
-  chain: sepolia,
-  transport: http('https://rpc.sepolia.org')
+  chain: baseSepolia,
+  transport: http('https://sepolia.base.org')
 }).extend(publicActions)
 
 
@@ -81,8 +81,8 @@ async function deployNFT(name, symbol) {
   
 
     // 🚀 Deploying $MNM-NFT tokens
-    await MortyMee6Nft.nft(symbol).create({
-      name: name,
+    await MortyMee6Nft.nft("TPH").create({
+      name: "TPH",
       // Base Network WETH
       reserveToken: {
         address: '0xb16f35c0ae2912430dac15764477e179d9b9ebea',
@@ -115,7 +115,7 @@ async function deployNFT(name, symbol) {
 }
 
 async function nftMint() {
-  await mintclub.network(sepolia.id).token('0x0b697d5d7265969b80b7a004eae551b9953f69a3').sell({
+  await mintclub.network(baseSepolia.id).token('0x0b697d5d7265969b80b7a004eae551b9953f69a3').sell({
     amount: 1,
     recipient: '0x348b735403992203a768751c32871E2e4f462Bc7',
     onSuccess: function(receipt) {

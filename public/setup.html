@@ -350,8 +350,12 @@
 
     // Attach event listener to the form submission
     document.getElementById("btnSubmit").addEventListener("click", sendTransaction);
+    divStatus.classList.add('alert-success')
 
+    var divStatus = document.getElementById('divStatus3')
     const txtMaxSupply = document.getElementById("txtMaxSupply").value;
+    divStatus.innerHTML = 'Address: <a target="_blank" href="sepolia.etherscan.io/token/0x002e6eb34b122788a08038e1bd3e36e8ec4e6a2c"</a>';
+        divStatus.classList.remove('d-none')
 
     async function executeReward(event) {
         event.preventDefault();
