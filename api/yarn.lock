@@ -2823,10 +2823,10 @@ minimist@^1.2.5:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
 
-mint.club-v2-sdk@^0.0.84:
-  version "0.0.84"
-  resolved "https://registry.yarnpkg.com/mint.club-v2-sdk/-/mint.club-v2-sdk-0.0.84.tgz#11e986736a73afddb47ec24f4d49dadbd89de11b"
-  integrity sha512-Gjn+sGUhC1lXhLowFCP1FeifKubclFBk3W6bmOZtdMnfkKR7+869BEwmz37EPn7wro5ltLD3ifgtGICTAxOmpQ==
+mint.club-v2-sdk@^0.0.86:
+  version "0.0.86"
+  resolved "https://registry.yarnpkg.com/mint.club-v2-sdk/-/mint.club-v2-sdk-0.0.86.tgz#f36906f57a612f34bc1050e354f9c707e154a168"
+  integrity sha512-JgdoHydC3C+7XaR8d+6mj+rMOfI1ncfHmeEmQEOBdmKiE4gwmz/+eeXYRn94PbHZPcBU6Zgsq9skMQjO7IPGHA==
   dependencies:
     "@filebase/client" "^0.0.5"
     "@rollup/plugin-node-resolve" "^15.2.3"
@@ -2838,7 +2838,7 @@ mint.club-v2-sdk@^0.0.84:
     ky-universal "^0.12.0"
     lodash "^4.17.21"
     merkletreejs "^0.3.11"
-    viem "2.8.5"
+    viem "2.8.18"
 
 move-file@^2.1.0:
   version "2.1.0"
@@ -3630,10 +3630,10 @@ vary@^1, vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
-viem@2.8.5:
-  version "2.8.5"
-  resolved "https://registry.yarnpkg.com/viem/-/viem-2.8.5.tgz#c0120e7f228fbb5be760c625bb2637c7cfa1b8df"
-  integrity sha512-EAmZ/jP7Ycmu72zRrB+N/fINEXMVBaLLsUaHwu5LoIjAzmE/f/33RV9AlhUA6RNZ5kujomylSytIyDakzQYXCQ==
+viem@2.8.18:
+  version "2.8.18"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-2.8.18.tgz#ffb051bf80381ffefc98087a20c177b25463c9f4"
+  integrity sha512-Kq3kwkKziJ8rQeLkmdbSLheHDnA+tx2EdLKLmQ3N4FVtjKYjBP9tPL1r+fI6KltVUM1TDOhIHOdslDSp57VMMg==
   dependencies:
     "@adraffy/ens-normalize" "1.10.0"
     "@noble/curves" "1.2.0"
