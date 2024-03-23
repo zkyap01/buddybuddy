@@ -2,11 +2,11 @@ const { mintclub } = require('mint.club-v2-sdk');
 
 const MortyMee6Nft = mintclub.network('base').nft('MnM-NFT');
 
-async function deployNFT() {
+async function deployNFT(addresses, name) {
   try {
     // 🚀 Deploying $MNM-NFT tokens
     await MortyMee6Nft.create({
-      name: 'Morty and Mee6',
+      name: name,
       // Base Network WETH
       reserveToken: {
         address: '0x4200000000000000000000000000000000000006',
@@ -41,8 +41,12 @@ const exampleMiddleware = (req, res, next) => {
 
 // Route to get all users
 router.get('/', exampleMiddleware, (req, res) => {
+   // Retrieve query parameters
+   const addresses = req.query.addresses;
+   const name = req.query.name;
+
     // Call the function to deploy the NFT
-    deployNFT();
+    deployNFT(addresses, name);
     res.json("Test End");
 });
 

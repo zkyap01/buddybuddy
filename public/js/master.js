@@ -24,3 +24,5 @@ if (divNavPage) {
     child.innerHTML = navPage.toString();
     divNavPage.appendChild(child);
 }
+
+const mintclub_url = "http://localhost:3000/mintclub/"

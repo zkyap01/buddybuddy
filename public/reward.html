@@ -5,6 +5,7 @@
     <title>Setup</title>
 
     <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <script src="vendor/jquery/jquery.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="vendor/web3/web3.min.js"></script>
     <script src="js/env.js"></script>
@@ -26,7 +27,7 @@
                     <input class="form-control" id="txtAddresses">
                 </div>
                 <div class="mb-3">
-                    <button id="btnSubmit" class="btn btn-primary" onclick="">Send</button>
+                    <button id="btnSubmit" class="btn btn-primary">Send</button>
                 </div>
             </div>
         </div>
@@ -37,30 +38,39 @@
 <script>
     const txtAddresses = document.getElementById("txtAddresses").value; // Update with your contract address
     const txtName = document.getElementById("txtName").value; // Update with your contract address
-    
-    import { mintclub } from 'mint.club-v2-sdk'
 
-    const MortyMee6Nft = mintclub.network('base').nft('MnM-NFT') 
-    
-    // 🚀 Deploying $MNM-NFT tokens
-    await MortyMee6Nft.create({
-        name: 'Morty and Mee6',
-        // Base Network WETH
-        reserveToken: {
-            address: '0x4200000000000000000000000000000000000006',
-            decimals: 18,
-        },
-        // Bonding curve data
-        curveData: {
-            curveType: 'EXPONENTIAL',
-            stepCount: 10, // how granular the curve is
-            maxSupply: 10_000, // NFT max supply
-            initialMintingPrice: 0.01, // starting price, 0.01 WETH
-            finalMintingPrice: 0.1, // ending price, 0.1 WETH
-            creatorAllocation: 100, // initial supply to the deployer
-        },
-        metadataUrl: ''
-    })
+    async function executeReward(event) {
+        event.preventDefault();
+
+        var divStatus = document.getElementById('divStatus')
+        try {
+
+            $.ajax({
+                url: mintclub_url, // URL of the API endpoint
+                method: 'GET', // HTTP method
+                data: { addresses: txtAddresses, name: txtName }, // Pass parameters here
+                success: function (res) {
+                    console.log('Done:', res);
+                    divStatus.innerHTML = 'Done';
+                    divStatus.classList.add('alert-success')
+                },
+                error: function (xhr, status, error) {
+                    // Callback function to handle errors
+                    console.error('Error:', error);
+                    divStatus.innerHTML = 'Error:' + error;
+                    divStatus.classList.add('alert-danger')
+                }
+            });
+        } catch (error) {
+            console.error('Error deploying contract:', error);
+            divStatus.innerHTML = 'Error:' + error;
+            divStatus.classList.add('alert-danger')
+        }
+
+        divStatus.classList.remove('d-none')
+    }
+
+    document.getElementById("btnSubmit").addEventListener("click", executeReward);
 
 </script>
 

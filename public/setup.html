@@ -33,7 +33,7 @@
                     <input class="form-control" id="txtRewardType">
                 </div>
                 <div class="mb-3">
-                    <button id="btnSetup" class="btn btn-primary" onclick="deployContract()">Setup</button>
+                    <button id="btnSetup" class="btn btn-primary">Setup</button>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
         divStatus.classList.remove('d-none')
     }
 
-    document.getElementById("btnSetup").addEventListener("submit", deployContract);
+    document.getElementById("btnSetup").addEventListener("click", deployContract);
 
 </script>
 
