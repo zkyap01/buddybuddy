@@ -2,22 +2,43 @@ const { mintclub } = require('mint.club-v2-sdk');
 const { fallback } = require( 'viem')
 
 const pk = '0x85a322fb25868a549ec231c9e2531c64ca5f22099bd7c9f7e79bc6a8aeea116c'
+const address = '0x1671aad14B578C74259b682fac2111845BD0964D'
 const chain = 11155111
 const tmpname = "zkkks"
 
-const MortyMee6Nft = mintclub.network(chain)
+const MortyMee6Nft = mintclub
   // .withAccount('0x1671aad14B578C74259b682fac2111845BD0964D', window.ethereum) 
-  // .withPrivateKey(pk)
+  .network(chain)
+  // .withAccount(address, window.sepolia)
+  .withPrivateKey(pk)
+  // .withWalletClient({   
+  //   // account: address,  
+  //   transport: [
+  //     'https://rpc.sepolia.ethpandaops.io',
+  //     'https://eth-sepolia-public.unifra.io',
+  //     'https://endpoints.omniatech.io/v1/eth/sepolia/public',
+  //     'https://ethereum-sepolia.publicnode.com',
+  //     'https://eth-sepolia.public.blastapi.io',
+  //     'https://rpc.notadegen.com/eth/sepolia',
+  //     'https://eth-sepolia.api.onfinality.io/public',
+  //     'https://rpc-sepolia.rockx.com',
+  //     'https://rpc.sepolia.org',
+  //     'https://rpc2.sepolia.org',
+  //     'https://sphinx.shardeum.org',
+  //   ]
+  // }) 
   .nft('MnM-NFT');
 
 async function deployNFT(addresses, name) {
   try {
+const address2 = await mintclub.wallet.connect(); 
+
     // 🚀 Deploying $MNM-NFT tokens
     await MortyMee6Nft.create({
       name: tmpname,
       // Base Network WETH
       reserveToken: {
-        address: '0x4200000000000000000000000000000000000006',
+        address: '0xb16f35c0ae2912430dac15764477e179d9b9ebea',
         decimals: 18,
       },
       // Bonding curve data
@@ -29,7 +50,14 @@ async function deployNFT(addresses, name) {
         finalMintingPrice: 0.1, // ending price, 0.1 WETH
         creatorAllocation: 100, // initial supply to the deployer
       },
-      metadataUrl: 'https://w0.peakpx.com/wallpaper/607/199/HD-wallpaper-evening-pic-natura.jpg'
+      metadataUrl: 'https://w0.peakpx.com/wallpaper/607/199/HD-wallpaper-evening-pic-natura.jpg',
+      onSuccess: function(receipt) {
+        // Your logic here
+        console.log('s1: ' + receipt);
+      },
+      onError: (error) => {
+        console.error('e1', error);
+      } 
     });
 
     console.log('NFT deployed successfully.');
@@ -42,14 +70,14 @@ async function getElementByIdotalSupply () {
   const totalSupply = await mintclub 
     .network(chain) 
     .withPrivateKey(pk)
-    .token(tmpname) 
+    .token(address) 
     .getTotalSupply() 
  
   console.log("haha");
   console.log(totalSupply);
 
-  const publicClient = await mintclub.network('base').getPublicClient()
-  console.log(publicClient);
+  // const publicClient = await mintclub.network('base').getPublicClient()
+  // console.log(publicClient);
 }
 
 const express = require('express');
