@@ -48,7 +48,7 @@
                 </div>
                 <div id="walletSection">
                     <button id="btnWalletConnect_v2" type="button" onclick="connectWeb3('WalletConnect_v2')"
-                        class="btn btn-lg btn-white d-flex justify-content-between align-items-center w-100 p-3 mb-2"
+                        class="btn btn-white d-flex justify-content-between align-items-center w-100 p-3 mb-2"
                         style="border: 2px solid blue;">
                         <span class="text-dark">WalletConnect</span>
                         <img width="25" src="./images/walletconnect.svg" alt="">
@@ -64,13 +64,13 @@
     </section>
 
     <section id="interact" class="container mt-5" style="max-width: 540px;" visible="false">
-        <div class="alert d-none" role="alert" id="divStatus">
+        <div class="alert d-none" role="alert" id="divStatus2">
         </div>
         <div class="card">
             <div class="card-body">
                 <div class="mb-3">
-                    <label for="txtContractAddress" class="form-label">Contract Address</label>
-                    <input class="form-control" id="txtContractAddress">
+                    <label for="" class="form-label">Contract Address</label>
+                    <a href="javascript:;" id="linkContractAddress"><span class="form-control" id="txtContractAddress">&nbsp;</span></a>
                 </div>
                 <div class="mb-3">
                     <label for="txtBlockData" class="form-label">Data</label>
@@ -84,24 +84,28 @@
     </section>
 
     <div id="reward" class="mt-5 d-none" >
-        <section class="container" class="center-block">
+        <section class="container align-middle" style="max-width: 100%;">
             <iframe title="BuddyBuddy" width="900" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiOTNmODJiMGQtODUzMS00MGNmLWE2ZTAtMDVhYzU5NTRiYmJmIiwidCI6ImRjNjE0YmZkLTQzOGYtNDcyNi1hMmM2LTNmN2QzZDllZWIxYyIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
         </section>
 
         <section class="container mt-5" style="max-width: 540px;">
+            <div class="alert d-none" role="alert" id="divStatus3">
+            </div>
             <div class="card">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="txtName" class="form-label">Name</label>
-                            <input class="form-control" id="txtName">
-                        </div>
-                        <div class="mb-3">
-                            <button id="btnCreate" class="btn btn-primary mr-2">Create</button>
-                            <button id="btnDistribute" class="btn btn-primary mr-2">Distribute</button>
-                            <!-- <button id="btnSubmit2" class="btn btn-primary mr-2">Send2</button>
-                            <button id="btnSubmit3" class="btn btn-primary mr-2">Send3</button> -->
-                        </div>
+                <div class="card-header">
+                    Reward <span id="rewardType"></span>
+                </div>
+
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="txtName" class="form-label">Name</label>
+                        <input class="form-control" id="txtName">
+                    </div>
+                    <div class="mb-3">
+                        <button id="btnCreate" class="btn btn-primary mr-2">Create</button>
+                        <button id="btnDistribute" class="btn btn-primary mr-2">Distribute</button>
+                        <!-- <button id="btnSubmit2" class="btn btn-primary mr-2">Send2</button>
+                        <button id="btnSubmit3" class="btn btn-primary mr-2">Send3</button> -->
                     </div>
                 </div>
             </div>
@@ -130,6 +134,7 @@
     async function deployContract(event) {
         event.preventDefault();
 
+        var divStatus = document.getElementById('divStatus');
         try {
             // Deploy the contract
             const contractABI = [{ "inputs": [{ "internalType": "string", "name": "_projectName", "type": "string" }, { "internalType": "string", "name": "_rewardType", "type": "string" }, { "internalType": "string", "name": "_scoringRules", "type": "string" }], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "writer", "type": "address" }, { "indexed": true, "internalType": "uint256", "name": "blobId", "type": "uint256" }, { "indexed": false, "internalType": "bytes32", "name": "blobHash", "type": "bytes32" }], "name": "BlobWritten", "type": "event" }, { "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "name": "blobById", "outputs": [{ "internalType": "bytes32", "name": "blobHash", "type": "bytes32" }, { "internalType": "uint256", "name": "timestamp", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "name": "blobs", "outputs": [{ "internalType": "bytes32", "name": "blobHash", "type": "bytes32" }, { "internalType": "uint256", "name": "timestamp", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getEventPeriod", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getRecurringCount", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getScoringRules", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "projectName", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "blobId", "type": "uint256" }], "name": "readBlobById", "outputs": [{ "components": [{ "internalType": "bytes32", "name": "blobHash", "type": "bytes32" }, { "internalType": "uint256", "name": "timestamp", "type": "uint256" }], "internalType": "struct BuddyBuddy.BlobData", "name": "", "type": "tuple" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "readLatestBlob", "outputs": [{ "components": [{ "internalType": "bytes32", "name": "blobHash", "type": "bytes32" }, { "internalType": "uint256", "name": "timestamp", "type": "uint256" }], "internalType": "struct BuddyBuddy.BlobData", "name": "", "type": "tuple" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "rewardType", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "_eventPeriod", "type": "uint256" }], "name": "setEventPeriod", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "_recurringCount", "type": "uint256" }], "name": "setRecurringCount", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "string", "name": "_scoringRules", "type": "string" }], "name": "setScoringRules", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "blobHash", "type": "bytes32" }], "name": "writeBlobData", "outputs": [], "stateMutability": "nonpayable", "type": "function" }];
@@ -148,7 +153,7 @@
                 arguments: [projectType, rewardType, rules] // Pass constructor parameters directly here
             }).send({
                 from: accounts[0], // Use the first account to deploy
-                gas: 1500000, // Adjust the gas limit as necessary
+                gas: 2000000, // Adjust the gas limit as necessary
                 // Note: The gas value you provided was quite high; adjust it according to your contract's needs
             });
 
@@ -158,13 +163,12 @@
             }
 
             // After deployment, the deployed contract instance contains the address
-            var divStatus = document.getElementById('divStatus');
             console.log('Contract deployed at address:', deployedContract.options.address);
             divStatus.innerHTML = 'Contract deployed at address:' + deployedContract.options.address;
             divStatus.classList.add('alert-success');
 
-            document.getElementById("txtContractAddress").innerHTML = "<a href=" + deployContractUrl + ">deployedContract.options.address</a>";
-            return deployedContract.options.address;
+            document.getElementById("linkContractAddress").href = deployContractUrl;
+            document.getElementById("txtContractAddress").innerHTML = deployedContract.options.address;
         } catch (error) {
             console.error('Error deploying contract:', error);
             divStatus.innerHTML = 'Error deploying contract:' + error;
@@ -296,11 +300,11 @@
     async function sendTransaction(event) {
         event.preventDefault();
         const contractABI2 = [{ "inputs": [{ "internalType": "string", "name": "_projectName", "type": "string" }, { "internalType": "string", "name": "_rewardType", "type": "string" }, { "internalType": "string", "name": "_scoringRules", "type": "string" }], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "writer", "type": "address" }, { "indexed": true, "internalType": "uint256", "name": "blobId", "type": "uint256" }, { "indexed": false, "internalType": "bytes32", "name": "blobHash", "type": "bytes32" }], "name": "BlobWritten", "type": "event" }, { "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "name": "blobById", "outputs": [{ "internalType": "bytes32", "name": "blobHash", "type": "bytes32" }, { "internalType": "uint256", "name": "timestamp", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "name": "blobs", "outputs": [{ "internalType": "bytes32", "name": "blobHash", "type": "bytes32" }, { "internalType": "uint256", "name": "timestamp", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getEventPeriod", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getRecurringCount", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getScoringRules", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "projectName", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "blobId", "type": "uint256" }], "name": "readBlobById", "outputs": [{ "components": [{ "internalType": "bytes32", "name": "blobHash", "type": "bytes32" }, { "internalType": "uint256", "name": "timestamp", "type": "uint256" }], "internalType": "struct BuddyBuddy.BlobData", "name": "", "type": "tuple" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "readLatestBlob", "outputs": [{ "components": [{ "internalType": "bytes32", "name": "blobHash", "type": "bytes32" }, { "internalType": "uint256", "name": "timestamp", "type": "uint256" }], "internalType": "struct BuddyBuddy.BlobData", "name": "", "type": "tuple" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "rewardType", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "_eventPeriod", "type": "uint256" }], "name": "setEventPeriod", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "_recurringCount", "type": "uint256" }], "name": "setRecurringCount", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "string", "name": "_scoringRules", "type": "string" }], "name": "setScoringRules", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes32", "name": "blobHash", "type": "bytes32" }], "name": "writeBlobData", "outputs": [], "stateMutability": "nonpayable", "type": "function" }];
-        const contractAddress = document.getElementById("txtContractAddress").value; // Update with your contract address
+        const contractAddress = document.getElementById("txtContractAddress").innerHTML; // Update with your contract address
         // Get the contract instance
         const contract = new web3obj.eth.Contract(contractABI2, contractAddress);
 
-        var divStatus = document.getElementById('divStatus')
+        var divStatus = document.getElementById('divStatus2')
         try {
             // Get the input value from the form
             const inputValue = document.getElementById("txtBlockData").value;

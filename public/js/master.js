@@ -1,5 +1,5 @@
 const navPage = `
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand navbar-light bg-light">
         <div class="container" style="max-width: 540px;">
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
