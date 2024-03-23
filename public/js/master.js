@@ -25,4 +25,4 @@ if (divNavPage) {
     divNavPage.appendChild(child);
 }
 
-const mintclub_url = "45.76.188.177:3000/mintclub/"
+const mintclub_url = "//45.76.188.177:3000/mintclub/"
