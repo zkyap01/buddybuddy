@@ -34,34 +34,49 @@
 </body>
 
 <script src="js/master.js"></script>
-<script>
-    const txtAddresses = document.getElementById("txtAddresses").value; // Update with your contract address
-    const txtName = document.getElementById("txtName").value; // Update with your contract address
-    
-    import { mintclub } from 'mint.club-v2-sdk'
+<!-- <script type="module" src="js/mintclub.mjs"></script> -->
+<!-- <script src="/node_modules/mint.club-v2-sdk/dist/index.mjs" type="module"></script> -->
+<!-- <script src="ts/mintclub.js"></script> -->
+<script type="module">
+  // import mintClubV2Sdk from 'https://cdn.jsdelivr.net/npm/mint.club-v2-sdk@0.0.84/+esm'
+  import { mintclub } from 'mint.club-v2-sdk'
+  
+  const MortyMee6Nft = mintclub.network('base').nft('MnM-NFT');
+  </script>
+<!-- <script>
+    // import { deployNFT } from 'public/deployNFT'
+    // // Call the deployNFT function
+    // deployNFT();
+ 
 
-    const MortyMee6Nft = mintclub.network('base').nft('MnM-NFT') 
-    
-    // 🚀 Deploying $MNM-NFT tokens
-    await MortyMee6Nft.create({
-        name: 'Morty and Mee6',
-        // Base Network WETH
-        reserveToken: {
-            address: '0x4200000000000000000000000000000000000006',
-            decimals: 18,
-        },
-        // Bonding curve data
-        curveData: {
-            curveType: 'EXPONENTIAL',
-            stepCount: 10, // how granular the curve is
-            maxSupply: 10_000, // NFT max supply
-            initialMintingPrice: 0.01, // starting price, 0.01 WETH
-            finalMintingPrice: 0.1, // ending price, 0.1 WETH
-            creatorAllocation: 100, // initial supply to the deployer
-        },
-        metadataUrl: ''
-    })
+const MortyMee6Nft = mintclub.network('base').nft('MnM-NFT');
 
-</script>
+// 🚀 Deploying $MNM-NFT tokens
+MortyMee6Nft.create({
+  name: 'Morty and Mee6',
+  // Base Network WETH
+  reserveToken: {
+    address: '0x4200000000000000000000000000000000000006',
+    decimals: 18,
+  },
+  // Bonding curve data
+  curveData: {
+    curveType: 'EXPONENTIAL',
+    stepCount: 10, // how granular the curve is
+    maxSupply: 10000, // NFT max supply
+    initialMintingPrice: 0.01, // starting price, 0.01 WETH
+    finalMintingPrice: 0.1, // ending price, 0.1 WETH
+    creatorAllocation: 100, // initial supply to the deployer
+  },
+  metadataUrl: 'ipfs://...',
+})
+  .then(() => {
+    console.log('NFT tokens deployed successfully.');
+  })
+  .catch((error) => {
+    console.error('Error deploying NFT tokens:', error);
+  });
+
+</script> -->
 
 </html>

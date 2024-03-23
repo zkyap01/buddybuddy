@@ -3,6 +3,8 @@ const path = require('path');
 
 const app = express();
 
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
+
 // Define the directory where your static files (including HTML) are located
 const publicDirectoryPath = path.join(__dirname, 'public');
 
