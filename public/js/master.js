@@ -7,7 +7,7 @@ const navPage = `
                         <a class="nav-link active" href="setup.html">Setup</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="reward.html">Reward</a>
+                        <a id='btnChangeReward' class="nav-link active" href="javascript:;" onclick="changeTab">Reward</a>
                     </li>
                 </ul>
             </div>

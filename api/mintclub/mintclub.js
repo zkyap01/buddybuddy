@@ -66,7 +66,7 @@ const MortyMee6Nft = mintclub
   // }) 
   .nft('MnM-NFT');
 
-async function deployNFT(addresses, name) {
+async function deployNFT( name) {
   try {
     // const creationFee = await mintclub.network('sepolia').bond.getCreationFee();
 
@@ -82,7 +82,7 @@ async function deployNFT(addresses, name) {
 
     // 🚀 Deploying $MNM-NFT tokens
     await MortyMee6Nft.create({
-      name: name,
+      name: "BB1",
       // Base Network WETH
       reserveToken: {
         address: '0xb16f35c0ae2912430dac15764477e179d9b9ebea',
@@ -114,7 +114,7 @@ async function deployNFT(addresses, name) {
   }
 }
 
-async function nftMint(addresses, name) {
+async function nftMint() {
   await mintclub.network(sepolia.id).token('0x0b697d5d7265969b80b7a004eae551b9953f69a3').sell({
     amount: 1,
     recipient: '0x348b735403992203a768751c32871E2e4f462Bc7',
@@ -155,22 +155,17 @@ const exampleMiddleware = (req, res, next) => {
 
 // Route to get all users
 router.get('/create', exampleMiddleware, (req, res) => {
-  // Retrieve query parameters
-  const addresses = req.query.addresses;
-  const name = req.query.name;
-
    // Call the function to deploy the NFT
-   nftMint(addresses, name);
+   nftMint();
    res.json("Test End");
 });
 
 router.get('/', exampleMiddleware, (req, res) => {
    // Retrieve query parameters
-   const addresses = req.query.addresses;
    const name = req.query.name;
 
     // Call the function to deploy the NFT
-    deployNFT(addresses, name);
+    deployNFT(name);
     res.json("Test End");
 });
 

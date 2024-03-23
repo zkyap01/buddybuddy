@@ -5,6 +5,7 @@
     <title>Setup</title>
 
     <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <script src="vendor/jquery/jquery.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="vendor/web3/web3.min.js"></script>
     <script src="js/env.js"></script>
@@ -81,28 +82,30 @@
         </div>
     </section>
 
-    <section id="interact" class="container mt-5" style="max-width: 540px;" visible="false">
-        <div class="card">
-            <div class="card-body">
-                <iframe title="BuddyBuddy" width="900" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiOTNmODJiMGQtODUzMS00MGNmLWE2ZTAtMDVhYzU5NTRiYmJmIiwidCI6ImRjNjE0YmZkLTQzOGYtNDcyNi1hMmM2LTNmN2QzZDllZWIxYyIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+    <div id="reward" class="mt-5 d-none" >
+        <section class="container" class="center-block">
+            <iframe title="BuddyBuddy" width="900" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiOTNmODJiMGQtODUzMS00MGNmLWE2ZTAtMDVhYzU5NTRiYmJmIiwidCI6ImRjNjE0YmZkLTQzOGYtNDcyNi1hMmM2LTNmN2QzZDllZWIxYyIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+        </section>
 
-                <div class="mb-3">
-                    <label for="txtName" class="form-label">Name</label>
-                    <input class="form-control" id="txtName">
-                </div>
-                <div class="mb-3">
-                    <label for="txtAddresses" class="form-label">Addresses</label>
-                    <input class="form-control" id="txtAddresses">
-                </div>
-                <div class="mb-3">
-                    <button id="btnCreate" class="btn btn-primary mr-2">Create</button>
-                    <button id="btnDistribute" class="btn btn-primary mr-2">Distribute</button>
-                    <!-- <button id="btnSubmit2" class="btn btn-primary mr-2">Send2</button>
-                    <button id="btnSubmit3" class="btn btn-primary mr-2">Send3</button> -->
+        <section class="container mt-5" style="max-width: 540px;">
+            <div class="card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="txtName" class="form-label">Name</label>
+                            <input class="form-control" id="txtName">
+                        </div>
+                        <div class="mb-3">
+                            <button id="btnCreate" class="btn btn-primary mr-2">Create</button>
+                            <button id="btnDistribute" class="btn btn-primary mr-2">Distribute</button>
+                            <!-- <button id="btnSubmit2" class="btn btn-primary mr-2">Send2</button>
+                            <button id="btnSubmit3" class="btn btn-primary mr-2">Send3</button> -->
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </body>
 
 <script src="js/master.js"></script>
@@ -121,6 +124,7 @@
 
     let section_setup = document.getElementById('setup');
     let section_interact = document.getElementById('interact');
+    let section_reward = document.getElementById('reward');
 
     async function deployContract(event) {
         event.preventDefault();
@@ -314,7 +318,6 @@
     // Attach event listener to the form submission
     document.getElementById("btnSubmit").addEventListener("click", sendTransaction);
 
-    const txtAddresses = document.getElementById("txtAddresses").value; // Update with your contract address
     const txtName = document.getElementById("txtName").value; // Update with your contract address
     
     async function executeReward(event) {
@@ -326,7 +329,7 @@
             $.ajax({
                 url: mintclub_url, // URL of the API endpoint
                 method: 'GET', // HTTP method
-                data: { addresses: txtAddresses, name: txtName }, // Pass parameters here
+                data: {, name: txtName }, // Pass parameters here
                 success: function (res) {
                     console.log('Done:', res);
                     divStatus.innerHTML = 'Done';
@@ -349,6 +352,14 @@
     }
 
     document.getElementById("btnCreate").addEventListener("click", executeReward);
+
+    async function changeTab(event) {
+        section_setup.classList.add("d-none")
+        section_interact.classList.add("d-none")
+        section_reward.classList.remove("d-none")
+    }
+    document.getElementById("btnChangeReward").addEventListener("click", changeTab);
+
 </script>
 
 </html>
