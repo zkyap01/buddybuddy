@@ -4,7 +4,7 @@ const navPage = `
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a id='btnChangeSetUp' class="nav-link active" href="setup.html">Setup</a>
+                        <a id='btnChangeSetUp' class="nav-link active" href="setup.html">Create Project</a>
                     </li>
                     <li class="nav-item">
                         <a id='btnChangeStore' class="nav-link active" href="javascript:;" onclick="changeTabStore">Upload</a>
