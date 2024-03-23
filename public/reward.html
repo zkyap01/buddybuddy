@@ -27,7 +27,9 @@
                     <input class="form-control" id="txtAddresses">
                 </div>
                 <div class="mb-3">
-                    <button id="btnSubmit" class="btn btn-primary">Send</button>
+                    <button id="btnSubmit" class="btn btn-primary mr-2">Send</button>
+                    <button id="btnSubmit2" class="btn btn-primary mr-2">Send2</button>
+                    <button id="btnSubmit3" class="btn btn-primary mr-2">Send3</button>
                 </div>
             </div>
         </div>
@@ -38,6 +40,7 @@
 <script>
     const txtAddresses = document.getElementById("txtAddresses").value; // Update with your contract address
     const txtName = document.getElementById("txtName").value; // Update with your contract address
+    const BearerApiKey = "Bearer TEST_API_KEY:5a68dc92be55865ba013d2efa8594b25:b63f46373e50ce3a356fd453315f94fc"
 
     async function executeReward(event) {
         event.preventDefault();
@@ -70,7 +73,63 @@
         divStatus.classList.remove('d-none')
     }
 
+    async function circleEncryptEntitySecret(event) {
+        event.preventDefault();
+
+        const settings = {
+            async: true,
+            crossDomain: true,
+            url: 'https://api.circle.com/v1/w3s/config/entity/publicKey',
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: BearerApiKey
+            }
+        };
+
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
+    }
+
+    async function circleCreateWalletSet() {
+        const settings = {
+            async: true,
+            crossDomain: true,
+            url: 'https://api.circle.com/v1/w3s/developer/walletSets',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: BearerApiKey
+            },
+            processData: false,
+            data: '{"idempotencyKey":"' + uuidv4() + '","entitySecretCipherText":"' + circle_secret() + '","name":"BuddyBuddy"}'
+        };
+
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
+    }
+    function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    function circle_secret(){
+        let array = new Uint8Array(32)
+        window.crypto.getRandomValues(array)
+        let secret = Array.from(array)
+            .map((b) => b.toString(16).padStart(2, '0'))
+            .join('')
+
+        return circle_secret;
+    }
+
     document.getElementById("btnSubmit").addEventListener("click", executeReward);
+    document.getElementById("btnSubmit2").addEventListener("click", circleEncryptEntitySecret);
+    document.getElementById("btnSubmit3").addEventListener("click", circleCreateWalletSet);
 
 </script>
 
