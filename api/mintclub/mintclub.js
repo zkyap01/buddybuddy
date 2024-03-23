@@ -1,18 +1,30 @@
 const { mintclub } = require('mint.club-v2-sdk');
 const { createWalletClient, custom, http, publicActions } = require('viem');
 const { mainnet, sepolia } = require('viem/chains')
-const { privateKeyToAccount }  = require('viem/accounts')
+const { privateKeyToAccount } = require('viem/accounts')
+const { Web3 } = require('web3')
 
 const pk = '0x85a322fb25868a549ec231c9e2531c64ca5f22099bd7c9f7e79bc6a8aeea116c'
 const address = '0x1671aad14B578C74259b682fac2111845BD0964D'
 const chain = 11155111
 const tmpname = "zkkks"
 
-const account = privateKeyToAccount(pk)
+// This is your RPC provider URL, for example, Infura or Alchemy URL for Goerli
+const rpcProviderUrl = 'https://rpc.sepolia.org';
+
+// Create a Web3 instance and set the provider
+const web3 = new Web3(new Web3.providers.HttpProvider(rpcProviderUrl));
+
+// Create an account from the private key
+const account = web3.eth.accounts.privateKeyToAccount(pk);
+web3.eth.accounts.wallet.add(account);
+
+// const account = privateKeyToAccount(pk)
 const client = createWalletClient({
   account,
   chain: sepolia,
-  transport: http('https://rpc.sepolia.org')
+  transport: http(rpcProviderUrl)
+
 }).extend(publicActions)
 
 const MortyMee6Nft = mintclub
@@ -61,13 +73,13 @@ async function deployNFT(addresses, name) {
         creatorAllocation: 100, // initial supply to the deployer
       },
       metadataUrl: 'https://w0.peakpx.com/wallpaper/607/199/HD-wallpaper-evening-pic-natura.jpg',
-      onSuccess: function(receipt) {
+      onSuccess: function (receipt) {
         // Your logic here
         console.log('s1: ' + receipt);
       },
       onError: (error) => {
         console.error('e1', error);
-      } 
+      }
     });
 
     console.log('NFT deployed successfully.');
@@ -76,13 +88,13 @@ async function deployNFT(addresses, name) {
   }
 }
 
-async function getElementByIdotalSupply () {
-  const totalSupply = await mintclub 
-    .network(chain) 
+async function getElementByIdotalSupply() {
+  const totalSupply = await mintclub
+    .network(chain)
     .withPrivateKey(pk)
-    .token(address) 
-    .getTotalSupply() 
- 
+    .token(address)
+    .getTotalSupply()
+
   console.log("haha");
   console.log(totalSupply);
 
@@ -101,20 +113,20 @@ const exampleMiddleware = (req, res, next) => {
 
 // Route to get all users
 router.get('/', exampleMiddleware, (req, res) => {
-   // Retrieve query parameters
-   const addresses = req.query.addresses;
-   const name = req.query.name;
+  // Retrieve query parameters
+  const addresses = req.query.addresses;
+  const name = req.query.name;
 
-    // Call the function to deploy the NFT
-    deployNFT(addresses, name);
-    res.json("Test End");
+  // Call the function to deploy the NFT
+  deployNFT(addresses, name);
+  res.json("Test End");
 });
 
 
 router.get('/gettotalsupply', exampleMiddleware, (req, res) => {
-   // Call the function to deploy the NFT
-   getElementByIdotalSupply();
-   res.json("Test gettotalsupply End");
+  // Call the function to deploy the NFT
+  getElementByIdotalSupply();
+  res.json("Test gettotalsupply End");
 });
 
 module.exports = router;
