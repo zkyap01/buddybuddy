@@ -25,13 +25,12 @@
                     <label for="ddlChain" class="form-label">Chain</label>
                     <select id="ddlChain" class="form-select" aria-label="Default select example">
                         <option selected>Select</option>
-                        <option value="Base Sepolia">Base Sepolia</option>
-                        <option value="Linea Sepolia">Linea Sepolia</option>
-                        <option value="Optimism Sepolia">Optimism Sepolia</option>
-                        <option value="Sepolia">Sepolia</option>
-                        <option value="Scroll Sepolia">Scroll Sepolia</option>
-                        <option value="Zircuit">Zircuit</option>
-
+                        <option value="84532">Base Sepolia</option>
+                        <option value="59144">Linea Sepolia</option>
+                        <option value="534351">Optimism Sepolia</option>
+                        <option value="11155111">Sepolia</option>
+                        <option value="534351">Scroll Sepolia</option>
+                        <option value="48899">Zircuit</option>
                     </select>
                 </div>
                 <div class="mb-3">
@@ -208,7 +207,7 @@
     async function initWalletConnect_v2() {
         walletConnectObj_v2 = await WalletConnectProvider_v2.init({
             projectId: 'ad2cbbc1810a6036a4c3c0c8042073c3', // REQUIRED your projectId
-            chains: [84532],
+            chains: [valueChain],
             //chains: [11155111],
             showQrModal: true,
             rpcMap:
