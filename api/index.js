@@ -1,6 +1,6 @@
 // index.js
 const express = require('express');
-const router1 = require('./mintclub/mintclub');
+const router1 = require('./mintclub/mintclub'); //http://localhost:3000/mintclub/
 
 const app = express();
 const PORT = process.env.PORT || 3000;
