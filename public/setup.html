@@ -444,18 +444,31 @@
                             getInternalTx()
                         }, 6000);
                     } else {
-                        if (count < 20) {
-                            count += 1
-                            setTimeout(function () {
-                                getTx()
-                            }, 6000);
-                        } else {
-                            count = 0
-                            console.error('Fail');
-                            divStatus.innerHTML = 'Fail'
-                            divStatus.classList.add('alert-danger')
-                            divStatus.classList.remove('d-none')
-                        }
+                    if (count < 20) {
+                        count += 1
+                        setTimeout(function () {
+                            getTx()
+                        }, 6000);
+                    } else {
+                        count = 0
+                        console.error('Fail');
+                        divStatus.innerHTML = 'Fail'
+                        divStatus.classList.add('alert-danger')
+                        divStatus.classList.remove('d-none')
+                    }
+                }
+                } else {
+                    if (count < 20) {
+                        count += 1
+                        setTimeout(function () {
+                            getTx()
+                        }, 6000);
+                    } else {
+                        count = 0
+                        console.error('Fail');
+                        divStatus.innerHTML = 'Fail'
+                        divStatus.classList.add('alert-danger')
+                        divStatus.classList.remove('d-none')
                     }
                 }
             },
