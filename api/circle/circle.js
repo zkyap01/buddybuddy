@@ -19,8 +19,8 @@ OBSWN+w8rl0dWatdknRZ0EDOso+7wmWJ+ERkHNJgKMyx8kyA7ocOO+nCHiES0AAo
 moOkGz/V7jyUkr4FEZjMCkkCAwEAAQ==
 -----END PUBLIC KEY-----`;
 
-    const entitySecret = forge.util.hexToBytes(publicKeyS);
-    const publicKey = forge.pki.publicKeyFromPem('e213b06d60df3766470391a7b028b29a9297e7a23234e96af57105712a80b6ee');
+    const entitySecret = forge.util.hexToBytes('e213b06d60df3766470391a7b028b29a9297e7a23234e96af57105712a80b6ee');
+    const publicKey = forge.pki.publicKeyFromPem(publicKeyS);
     const encryptedData = publicKey.encrypt(entitySecret, 'RSA-OAEP', {
         md: forge.md.sha256.create(),
         mgf1: {
