@@ -395,6 +395,81 @@
         divStatus.classList.remove('d-none')
     }
 
+    var apiUrl3 = ''
+    var apiUrl2 = 'https://api-sepolia.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=YourApiKeyToken'
+
+    var blockNumber = 0
+    var txhash = ""
+    var count = 0
+    getTx()
+    function getTx() {
+        $.ajax({
+            url: 'https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=0x1671aad14B578C74259b682fac2111845BD0964D&startblock=' + blockNumber + '&endblock=99999999&page=1&offset=10&sort=desc&apikey=YourApiKeyToken',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                // Handle the response data
+                console.log('Response getTx data:', response);
+
+                var result = response.result
+                if (result.count > 0) {
+                    if (blockNumber < response.result[0].blockNumber && response.result[0].form == "0x1671aad14b578c74259b682fac2111845bd0964d" && response.result[0].to == "0x8dce343a86aa950d539eee0e166affd0ef515c0c") {
+                        setTimeout(function() {
+                            txhash = response.result[0].hash
+                            getInternalTx()
+                        }, 6000);
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                console.error('Request failed with status:', xhr.status);
+            }
+        });
+
+        if (count < 20){
+            count+=1
+            setTimeout(function() {
+                getTx()
+            }, 6000);
+        } else {
+            count = 0
+        }
+    }
+
+    function getInternalTx(hash){
+        $.ajax({
+            url: 'https://api.etherscan.io/api?module=account&action=txlistinternal&txhash=' + txhash + '&apikey=YourApiKeyToken',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                // Handle the response data
+                console.log('Response getInternalTx data:', response);
+              
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                console.error('Request failed with status:', xhr.status);
+            }
+        });
+    }
+   
+
+    // $.ajax({
+    //     url: apiUrl2,
+    //     method: 'GET',
+    //     dataType: 'json',
+    //     success: function(response) {
+    //         // Handle the response data
+    //         console.log('Response block data:', blockNumber);
+    //         blockNumber = parseInt(response.result, 16)
+    //     },
+    //     error: function(xhr, status, error) {
+    //         // Handle errors
+    //         console.error('Request failed with status:', xhr.status);
+    //     }
+    // });
+    
     async function distributeReward(event) {
         event.preventDefault();
 
