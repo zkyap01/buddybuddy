@@ -458,7 +458,7 @@
                     }
                 }
                 } else {
-                    if (count < 20) {
+                    if (count < 44) {
                         count += 1
                         setTimeout(function () {
                             getTx()
@@ -482,6 +482,7 @@
         });
     }
 
+    var count2 = 0
     function getInternalTx(){
         $.ajax({
             url: chainlist[document.getElementById('ddlChain').value]
@@ -499,6 +500,19 @@
                     divStatus.innerHTML = 'Address: ' + result[0].contractAddress;
                     divStatus.classList.add('alert-success')
                     divStatus.classList.remove('d-none')
+                }else{
+                    if (count2 < 44) {
+                        count2 += 1
+                        setTimeout(function () {
+                            getInternalTx()
+                        }, 6000);
+                    } else {
+                        count2 = 0
+                        console.error('Fail');
+                        divStatus.innerHTML = 'Fail'
+                        divStatus.classList.add('alert-danger')
+                        divStatus.classList.remove('d-none')
+                    }
                 }
             },
             error: function (xhr, status, error) {
