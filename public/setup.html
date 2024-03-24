@@ -93,6 +93,9 @@
         <section class="container mt-5" style="max-width: 540px;">
             <div class="alert d-none" role="alert" id="divStatus3">
             </div>
+            <div class="mt-3">
+                <span id="nftlink"></label>
+            </div>
             <div class="card">
                 <div class="card-header">
                     Reward <span id="rewardType"></span>
@@ -176,8 +179,9 @@
             //     deployContractUrl = "https://sepolia.basescan.org/address/" + deployedContract.options.address + "#code"
             // }
             // deployContractUrl = "https://sepolia.basescan.org/address/" + deployedContract.options.address + "#code"
-            deployContractUrl = "https://sepolia.etherscan.io/address/" + deployedContract.options.address + "#code"
-
+            // deployContractUrl = "https://sepolia.etherscan.io/address/" + deployedContract.options.address + "#code"
+            deployContractUrl =  chainlist[document.getElementById('ddlChain').value].explorerLink + deployedContract.options.address + "#code"
+           
 
             // After deployment, the deployed contract instance contains the address
             console.log('Contract deployed at address:', deployedContract.options.address);
@@ -397,6 +401,10 @@
                                 setTimeout(function () {
                                     getTx()
                                 }, 6000);
+
+                                divStatus.innerHTML = 'Pending';
+                                divStatus.classList.add('alert-secondary')
+                                divStatus.classList.remove('d-none')
                             },
                             error: function (xhr, status, error) {
                                 // Handle errors
@@ -453,6 +461,7 @@
                             count = 0
                             console.error('Fail');
                             divStatus.innerHTML = 'Fail'
+                            divStatus.classList.remove('alert-secondary')
                             divStatus.classList.add('alert-danger')
                             divStatus.classList.remove('d-none')
                         }
@@ -467,6 +476,7 @@
                         count = 0
                         console.error('Fail');
                         divStatus.innerHTML = 'Fail'
+                        divStatus.classList.remove('alert-secondary')
                         divStatus.classList.add('alert-danger')
                         divStatus.classList.remove('d-none')
                     }
@@ -476,6 +486,7 @@
                 // Handle errors
                 console.error('Request failed with status:', xhr.status);
                 divStatus.innerHTML = 'Request failed with status:' + error;
+                divStatus.classList.remove('alert-secondary')
                 divStatus.classList.add('alert-danger')
                 divStatus.classList.remove('d-none')
             }
@@ -484,6 +495,7 @@
 
     var count2 = 0
     var circleAddress = ""
+
     function getInternalTx() {
         var divStatus = document.getElementById('divStatus3')
         $.ajax({
@@ -501,8 +513,13 @@
                     console.log('Address: ' + result[0].contractAddress);
                     // console.log('Address:0x002e6eb34b122788a08038e1bd3e36e8ec4e6a2c', res);
                     divStatus.innerHTML = 'Address: ' + result[0].contractAddress;
+                    divStatus.classList.remove('alert-secondary')
                     divStatus.classList.add('alert-success')
                     divStatus.classList.remove('d-none')
+
+                    var child = document.createElement('div');
+                    child.innerHTML = `<a href="` + chainlist[document.getElementById('ddlChain').value].explorerLink + `/token/` + result[0].contractAddress +  `" target="_blank"> ` +  result[0].contractAddress  + `</a>` 
+                    document.getElementById('nftlink').appendChild(child);
                 } else {
                     if (count2 < 44) {
                         count2 += 1
@@ -513,6 +530,7 @@
                         count2 = 0
                         console.error('Fail');
                         divStatus.innerHTML = 'Fail'
+                        divStatus.classList.remove('alert-secondary')
                         divStatus.classList.add('alert-danger')
                         divStatus.classList.remove('d-none')
                     }
@@ -523,12 +541,13 @@
                 console.error('Request failed with status:', xhr.status);
                 console.error('Request failed with status:', xhr.status);
                 divStatus.innerHTML = 'Request failed with status:' + error;
+                divStatus.classList.remove('alert-secondary')
                 divStatus.classList.add('alert-danger')
                 divStatus.classList.remove('d-none')
             }
         });
     }
-
+    
     async function distributeReward(event) {
         event.preventDefault();
 
