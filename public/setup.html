@@ -384,21 +384,21 @@
                     chainid: document.getElementById('ddlChain').value
                 }, // Pass parameters here
                 success: function (res) {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $.ajax({
                             url: chainlist[document.getElementById('ddlChain').value]
-    .api + '?module=proxy&action=eth_blockNumber&apikey=YourApiKeyToken',
+                                .api + '?module=proxy&action=eth_blockNumber&apikey=YourApiKeyToken',
                             method: 'GET',
                             dataType: 'json',
-                            success: function(response) {
+                            success: function (response) {
                                 // Handle the response data
                                 blockNumber = parseInt(response.result, 16)
                                 console.log('Response block data:', blockNumber);
-                                setTimeout(function() {
+                                setTimeout(function () {
                                     getTx()
                                 }, 6000);
                             },
-                            error: function(xhr, status, error) {
+                            error: function (xhr, status, error) {
                                 // Handle errors
                                 console.error('Request failed with status:', xhr.status);
                                 divStatus.innerHTML = 'Request failed with status:' + error;
@@ -444,19 +444,19 @@
                             getInternalTx()
                         }, 6000);
                     } else {
-                    if (count < 44) {
-                        count += 1
-                        setTimeout(function () {
-                            getTx()
-                        }, 6000);
-                    } else {
-                        count = 0
-                        console.error('Fail');
-                        divStatus.innerHTML = 'Fail'
-                        divStatus.classList.add('alert-danger')
-                        divStatus.classList.remove('d-none')
+                        if (count < 44) {
+                            count += 1
+                            setTimeout(function () {
+                                getTx()
+                            }, 6000);
+                        } else {
+                            count = 0
+                            console.error('Fail');
+                            divStatus.innerHTML = 'Fail'
+                            divStatus.classList.add('alert-danger')
+                            divStatus.classList.remove('d-none')
+                        }
                     }
-                }
                 } else {
                     if (count < 44) {
                         count += 1
@@ -483,7 +483,7 @@
     }
 
     var count2 = 0
-    function getInternalTx(){
+    function getInternalTx() {
         $.ajax({
             url: chainlist[document.getElementById('ddlChain').value]
                 .api + '?module=account&action=txlistinternal&txhash=' + txhash + '&apikey=YourApiKeyToken',
@@ -500,7 +500,7 @@
                     divStatus.innerHTML = 'Address: ' + result[0].contractAddress;
                     divStatus.classList.add('alert-success')
                     divStatus.classList.remove('d-none')
-                }else{
+                } else {
                     if (count2 < 44) {
                         count2 += 1
                         setTimeout(function () {
@@ -581,14 +581,14 @@
                 }
             });
 
-            setTimeout(function() {
+            setTimeout(function () {
                 console.log('Transaction sent successfully');
                 divStatus.innerHTML = 'Transaction sent successfully - https://mumbai.polygonscan.com/address/0x6EDAC7C2AaEd7b0A455249Aaf5Be8B6b1597F8E1#tokentxns'
                 divStatus.classList.add('alert-success')
                 divStatus.style = "word-break:break-word;"
                 divStatus.classList.remove('d-none')
             }, 6000);
-           
+
         } catch (error) {
             console.error('Error sending transaction:', error);
             divStatus.innerHTML = 'Error sending transaction:' + error;
