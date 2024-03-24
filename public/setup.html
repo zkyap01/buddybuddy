@@ -114,6 +114,7 @@
                     <div class="mb-3">
                         <button id="btnCreate" class="btn btn-primary mr-2">Create</button>
                         <button id="btnDistribute" class="btn btn-primary mr-2">Distribute</button>
+                        <button id="btnDistributeUSDC" class="btn btn-primary mr-2">Distribute USDC - Circle</button>
                         <!-- <button id="btnSubmit2" class="btn btn-primary mr-2">Send2</button>
                         <button id="btnSubmit3" class="btn btn-primary mr-2">Send3</button> -->
                     </div>
@@ -374,8 +375,8 @@
             $.ajax({
                 url: mintclub_url, // URL of the API endpoint
                 method: 'GET', // HTTP method
-                data: { 
-                    name:  document.getElementById("txtName").value, 
+                data: {
+                    name: document.getElementById("txtName").value,
                     symbol: document.getElementById("txtSymbol").value,
                     maxSupply: document.getElementById("txtMaxSupply").value,
                     chainid: document.getElementById('ddlChain').value
@@ -383,18 +384,18 @@
                 success: function (res) {
                     $.ajax({
                         url: chainlist[document.getElementById('ddlChain').value]
-.api + '?module=proxy&action=eth_blockNumber&apikey=YourApiKeyToken',
+                            .api + '?module=proxy&action=eth_blockNumber&apikey=YourApiKeyToken',
                         method: 'GET',
                         dataType: 'json',
-                        success: function(response) {
+                        success: function (response) {
                             // Handle the response data
                             blockNumber = parseInt(response.result, 16)
                             console.log('Response block data:', blockNumber);
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 getTx()
                             }, 6000);
                         },
-                        error: function(xhr, status, error) {
+                        error: function (xhr, status, error) {
                             // Handle errors
                             console.error('Request failed with status:', xhr.status);
                             divStatus.innerHTML = 'Request failed with status:' + error;
@@ -419,28 +420,28 @@
         }
     }
 
- 
+
     function getTx() {
         $.ajax({
             url: chainlist[document.getElementById('ddlChain').value]
-.api + '?module=account&action=txlist&address=0x1671aad14B578C74259b682fac2111845BD0964D&startblock=' + blockNumber + '&endblock=99999999&page=1&offset=10&sort=asc&apikey=YourApiKeyToken',
+                .api + '?module=account&action=txlist&address=0x1671aad14B578C74259b682fac2111845BD0964D&startblock=' + blockNumber + '&endblock=99999999&page=1&offset=10&sort=asc&apikey=YourApiKeyToken',
             method: 'GET',
             dataType: 'json',
-            success: function(response) {
+            success: function (response) {
                 // Handle the response data
                 console.log('Response getTx data:', response);
 
                 var result = response.result
                 if (result.length > 0) {
                     if (blockNumber < response.result[0].blockNumber && response.result[0].from == "0x1671aad14b578c74259b682fac2111845bd0964d" && response.result[0].to == "0x8dce343a86aa950d539eee0e166affd0ef515c0c") {
-                        setTimeout(function() {
+                        setTimeout(function () {
                             txhash = response.result[0].hash
                             getInternalTx()
                         }, 6000);
-                    }else{
-                        if (count < 20){
-                            count+=1
-                            setTimeout(function() {
+                    } else {
+                        if (count < 20) {
+                            count += 1
+                            setTimeout(function () {
                                 getTx()
                             }, 6000);
                         } else {
@@ -453,7 +454,7 @@
                     }
                 }
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 // Handle errors
                 console.error('Request failed with status:', xhr.status);
                 divStatus.innerHTML = 'Request failed with status:' + error;
@@ -463,26 +464,26 @@
         });
     }
 
-    function getInternalTx(){
+    function getInternalTx() {
         $.ajax({
             url: chainlist[document.getElementById('ddlChain').value]
-.api + '?module=account&action=txlistinternal&txhash=' + txhash + '&apikey=YourApiKeyToken',
+                .api + '?module=account&action=txlistinternal&txhash=' + txhash + '&apikey=YourApiKeyToken',
             method: 'GET',
             dataType: 'json',
-            success: function(response) {
+            success: function (response) {
                 // Handle the response data
                 console.log('Response getInternalTx data:', response);
-              
+
                 var result = response.result
                 if (result.length > 0) {
                     console.log('Address: ' + result[0].contractaddress);
-                        // console.log('Address:0x002e6eb34b122788a08038e1bd3e36e8ec4e6a2c', res);
-                        divStatus.innerHTML = 'Address: ' + result[0].contractAddress; 
-                        divStatus.classList.add('alert-success')
-                        divStatus.classList.remove('d-none')
+                    // console.log('Address:0x002e6eb34b122788a08038e1bd3e36e8ec4e6a2c', res);
+                    divStatus.innerHTML = 'Address: ' + result[0].contractAddress;
+                    divStatus.classList.add('alert-success')
+                    divStatus.classList.remove('d-none')
                 }
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 // Handle errors
                 console.error('Request failed with status:', xhr.status);
                 console.error('Request failed with status:', xhr.status);
@@ -529,9 +530,62 @@
         divStatus.classList.remove('d-none')
     }
 
+    async function distributeReward_circle(event) {
+        event.preventDefault();
+
+        var divStatus = document.getElementById('divStatus3')
+        try {
+
+            $.ajax({
+                url: 'http://45.76.188.177:3000/circle', // URL of the API endpoint
+                method: 'GET', // HTTP method
+                success: function (res) {
+                    $.ajax({
+                        url: chainlist[document.getElementById('ddlChain').value]
+                            .api + '?module=proxy&action=eth_blockNumber&apikey=YourApiKeyToken',
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (response) {
+                            // Handle the response data
+                            blockNumber = parseInt(response.result, 16)
+                            console.log('Response block data:', blockNumber);
+                            setTimeout(function () {
+                                getTx()
+                            }, 6000);
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle errors
+                            console.error('Request failed with status:', xhr.status);
+                            divStatus.innerHTML = 'Request failed with status:' + error;
+                            divStatus.classList.add('alert-danger')
+                            divStatus.classList.remove('d-none')
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    // Callback function to handle errors
+                    console.error('Error:', error);
+                    divStatus.innerHTML = 'Error:' + error;
+                    divStatus.classList.add('alert-danger')
+                    divStatus.classList.remove('d-none')
+                }
+            });
+            console.log('Transaction sent successfully');
+            divStatus.innerHTML = 'Transaction sent successfully - https://mumbai.polygonscan.com/address/0x6EDAC7C2AaEd7b0A455249Aaf5Be8B6b1597F8E1#tokentxns'
+            divStatus.classList.add('alert-success')
+        } catch (error) {
+            console.error('Error sending transaction:', error);
+            divStatus.innerHTML = 'Error sending transaction:' + error;
+            divStatus.classList.add('alert-danger')
+        }
+
+        divStatus.classList.remove('d-none')
+    }
+
     document.getElementById("btnCreate").addEventListener("click", executeReward);
     document.getElementById("btnDistribute").addEventListener("click", distributeReward);
-    
+    document.getElementById("btnDistributeUSDC").addEventListener("click", distributeReward_circle);
+
     async function changeTab(event) {
         section_setup.classList.add("d-none")
         section_interact.classList.add("d-none")
