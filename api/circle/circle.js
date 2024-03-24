@@ -16,7 +16,8 @@ function transfer() {
         headers: { 'Content-Type': 'application/json', Authorization: 'Bearer TEST_API_KEY:de93833b584521c56ac47e30c2e6ff9e:3431e4ff36a4aeaeea7176db30a86321' },
         body: JSON.stringify({
             idempotencyKey: idKey,
-            entitySecretCipherText: 'bouWuG9x2qIRasxBINkfVqEQEUYBBWwgUMlXscsfR80qtwrAh+7nqZkZzQsW7f63tvL2aSTdcCxjr0G7kBIAInGDBDvkgKbdodJfYPAW5bmULFi+zb/J0C1jl8GBe6++knCmL03/bdUNdbVl8Hb/gExR1E1WW3nA7OvMl6YJr4dbddVue/nkyE9P4dth2Pn8I45No0BWgcyOL2ODU1yDFcif7NjmNj0CCFe1JB4O4Z1chBUVNZ79a8qz7L5NK4RmWTQo2jC2JsTuIaTCr9vX5/Akds0XACaork78JbGNUxxywOVOgxfFsQjTExgMLjYhesE7MGR3U8Gma3fx5kx+vVei76VNYKQbIjdHw8kb2j9g2j+UZWejDJ2WNdxTmikUnAMAPhUAgB330Ygljgay+j1Xx+RDkBa72jt4a+NpY1jVldpi2Wj/28QSc0+hoBce/tuImIeL9jEy1MsVdIS5cwzO9hLnc0G9z433ut9yVwyPsO/+rZ+pGG8gOu35SdSw4Q7eZwKWYTJNJdL7db+FVB8U09c37Hx1OWp7avmZgJn+IhjfDtL4WWOd3cLEkWHuI0guEMTxvt90okbhWIw2c3UU1CsfpTbCzDFI9HB42QyZZNT6Ytg+IiF2G3dUHL7d7AebhB4CIiFViyFX4xxJD1jG9uBBRczyxsayFBKLb64=',
+            // entitySecretCipherText: 'bouWuG9x2qIRasxBINkfVqEQEUYBBWwgUMlXscsfR80qtwrAh+7nqZkZzQsW7f63tvL2aSTdcCxjr0G7kBIAInGDBDvkgKbdodJfYPAW5bmULFi+zb/J0C1jl8GBe6++knCmL03/bdUNdbVl8Hb/gExR1E1WW3nA7OvMl6YJr4dbddVue/nkyE9P4dth2Pn8I45No0BWgcyOL2ODU1yDFcif7NjmNj0CCFe1JB4O4Z1chBUVNZ79a8qz7L5NK4RmWTQo2jC2JsTuIaTCr9vX5/Akds0XACaork78JbGNUxxywOVOgxfFsQjTExgMLjYhesE7MGR3U8Gma3fx5kx+vVei76VNYKQbIjdHw8kb2j9g2j+UZWejDJ2WNdxTmikUnAMAPhUAgB330Ygljgay+j1Xx+RDkBa72jt4a+NpY1jVldpi2Wj/28QSc0+hoBce/tuImIeL9jEy1MsVdIS5cwzO9hLnc0G9z433ut9yVwyPsO/+rZ+pGG8gOu35SdSw4Q7eZwKWYTJNJdL7db+FVB8U09c37Hx1OWp7avmZgJn+IhjfDtL4WWOd3cLEkWHuI0guEMTxvt90okbhWIw2c3UU1CsfpTbCzDFI9HB42QyZZNT6Ytg+IiF2G3dUHL7d7AebhB4CIiFViyFX4xxJD1jG9uBBRczyxsayFBKLb64=',
+            entitysecret: 'e213b06d60df3766470391a7b028b29a9297e7a23234e96af57105712a80b6ee',
             amounts: ['0.1'],
             destinationAddress: '0x6edac7c2aaed7b0a455249aaf5be8b6b1597f8e1',
             feeLevel: 'HIGH',
