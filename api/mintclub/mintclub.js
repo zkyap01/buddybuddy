@@ -78,7 +78,7 @@ async function deployNFT(name, symbol, maxSupply, chainId) {
         transport: http('https://sepolia.base.org')
       }).extend(publicActions)
     }else{
-      chainName = sepolia
+      chain = sepolia
       client = createWalletClient({
         account,
         chain: chain,
