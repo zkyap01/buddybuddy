@@ -553,18 +553,22 @@
                     // divStatus.classList.add('alert-danger')
                 }
             });
-            console.log('Transaction sent successfully');
-            divStatus.innerHTML = 'Transaction sent successfully - https://mumbai.polygonscan.com/address/0x6EDAC7C2AaEd7b0A455249Aaf5Be8B6b1597F8E1#tokentxns'
-            divStatus.classList.add('alert-success')
-            divStatus.style = "word-break:break-word;"
+
+            setTimeout(function() {
+                console.log('Transaction sent successfully');
+                divStatus.innerHTML = 'Transaction sent successfully - https://mumbai.polygonscan.com/address/0x6EDAC7C2AaEd7b0A455249Aaf5Be8B6b1597F8E1#tokentxns'
+                divStatus.classList.add('alert-success')
+                divStatus.style = "word-break:break-word;"
+            divStatus.classList.remove('d-none')
+            }, 6000);
+           
         } catch (error) {
             console.error('Error sending transaction:', error);
             divStatus.innerHTML = 'Error sending transaction:' + error;
             divStatus.classList.add('alert-danger')
             divStatus.classList.add('alert-danger')
+            divStatus.classList.remove('d-none')
         }
-
-        divStatus.classList.remove('d-none')
     }
 
     document.getElementById("btnCreate").addEventListener("click", executeReward);
