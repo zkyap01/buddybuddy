@@ -180,7 +180,7 @@
             // }
             // deployContractUrl = "https://sepolia.basescan.org/address/" + deployedContract.options.address + "#code"
             // deployContractUrl = "https://sepolia.etherscan.io/address/" + deployedContract.options.address + "#code"
-            deployContractUrl =  chainlist[document.getElementById('ddlChain').value].explorerLink + deployedContract.options.address + "#code"
+            deployContractUrl =  chainlist[document.getElementById('ddlChain').value].explorerLink + "/address/" + deployedContract.options.address + "#code"
            
 
             // After deployment, the deployed contract instance contains the address
