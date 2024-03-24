@@ -32,9 +32,14 @@ function transfer() {
 
 }
 
-
 const express = require('express');
 const router = express.Router();
+
+// Middleware function
+const exampleMiddleware = (req, res, next) => {
+    console.log('Example middleware');
+    next();
+};
 
 router.get('/', exampleMiddleware, (req, res) => {
     // Retrieve query parameters
