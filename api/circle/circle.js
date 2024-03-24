@@ -4,8 +4,23 @@ const forge = require('node-forge')
 
 function encryptKey() {
 
-    const entitySecret = forge.util.hexToBytes('YOUR_ENTITY_SECRET')
-    const publicKey = forge.pki.publicKeyFromPem('YOUR_PUBLIC_KEY')
+    const publicKeyS = `-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAziUu56Phq8w7EdFk90Xw
+sYlms9kPLUXmFMOzUG0UKhiffBXBlYuCa+F2OCcxvRa/LnYZTTwi616q44EB4Dqj
+0OJTULoN6+bQ1nkLKMfyZ3G90HVJt5ZQlW6VnPwKipT8r3tMWWnll+yj6UEV2cTr
+Zt9/ZCOOE4U3rMMxKr2ejjYS30TZOaDDXlg3lC6rG+Q9pWaORJU4o5xcihg9Iur2
+rv7e02yFWi0gm5GdQfs1HYPFXyDSmBlQc1XQe5ofKUlT8+RHysJMPPkh0gkJW0XY
+dLcHTgQ4PF8ANOd9yKfbIKnIiLpM7PhP78RwVz3n3qH0wpX7JeMJ3c8L9pIL+LXr
+rsNIN6Kd2fzOb7RQvtd8G1Kl8GbiOwoUK6q8DSE4AdqGxTy+NAsRNMzMdWWBvr9a
+qZ0t4drNG2EpipTYGgB6+c4eg5RaDyh7LTwqP4WTvXCqLpgD8GPFywFV0kcrjuFz
+nKOF6LOtbORjXIimFPmAWRyb5jwZaUCLa8j5YCVAvU7vWrua/SVAxwaRqLv87+Qk
+rU2+cR06XTmAcZTAV+btwfVWP3Mj0YgMwS4wXQxPWbVFPXQlhkXLD9Ut06d7svTJ
+OBSWN+w8rl0dWatdknRZ0EDOso+7wmWJ+ERkHNJgKMyx8kyA7ocOO+nCHiES0AAo
+moOkGz/V7jyUkr4FEZjMCkkCAwEAAQ==
+-----END PUBLIC KEY-----`;
+
+    const entitySecret = forge.util.hexToBytes(publicKeyS);
+    const publicKey = forge.pki.publicKeyFromPem('e213b06d60df3766470391a7b028b29a9297e7a23234e96af57105712a80b6ee');
     const encryptedData = publicKey.encrypt(entitySecret, 'RSA-OAEP', {
         md: forge.md.sha256.create(),
         mgf1: {
@@ -34,7 +49,6 @@ function transfer() {
         body: JSON.stringify({
             idempotencyKey: idKey,
             entitySecretCipherText: testKey,
-            entitysecret: 'e213b06d60df3766470391a7b028b29a9297e7a23234e96af57105712a80b6ee',
             amounts: ['0.1'],
             destinationAddress: '0x6edac7c2aaed7b0a455249aaf5be8b6b1597f8e1',
             feeLevel: 'HIGH',
