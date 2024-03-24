@@ -6,7 +6,8 @@ const router2 = require('./circle/circle'); //http://localhost:3000/mintclub/
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const HOST = '45.76.188.177'
+// const HOST = '45.76.188.177'
+const HOST = 'localhost'
 
 // Use the cors middleware
 app.use(cors());

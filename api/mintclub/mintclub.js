@@ -7,7 +7,7 @@ const {
   mintclub,
 } = require('mint.club-v2-sdk');
 const { createWalletClient, custom, http, publicActions } = require('viem');
-const { mainnet, sepolia, baseSepolia } = require('viem/chains')
+const { mainnet, sepolia, baseSepolia, lineaTestnet, optimismSepolia, scrollSepolia } = require('viem/chains')
 const { privateKeyToAccount }  = require('viem/accounts')
 
 const pk = '0x85a322fb25868a549ec231c9e2531c64ca5f22099bd7c9f7e79bc6a8aeea116c'
@@ -33,41 +33,83 @@ const tmpname = "zkkks"
 //   },
 // });
 
-
-const account = privateKeyToAccount(pk)
-const client = createWalletClient({
-  account,
-  chain: sepolia,
-  transport: http('https://sepolia.base.org')
-}).extend(publicActions)
-
-
-const MortyMee6Nft = mintclub
-  // .network(chain)
-  .withWalletClient(client)
-  // .withAccount('0x1671aad14B578C74259b682fac2111845BD0964D', window.ethereum) 
-  // .withAccount(address, window.sepolia)
-  // .withPrivateKey(pk)
-  // .withWalletClient({   
-  //   // account: address,  
-  //   transport: [
-  //     'https://rpc.sepolia.ethpandaops.io',
-  //     'https://eth-sepolia-public.unifra.io',
-  //     'https://endpoints.omniatech.io/v1/eth/sepolia/public',
-  //     'https://ethereum-sepolia.publicnode.com',
-  //     'https://eth-sepolia.public.blastapi.io',
-  //     'https://rpc.notadegen.com/eth/sepolia',
-  //     'https://eth-sepolia.api.onfinality.io/public',
-  //     'https://rpc-sepolia.rockx.com',
-  //     'https://rpc.sepolia.org',
-  //     'https://rpc2.sepolia.org',
-  //     'https://sphinx.shardeum.org',
-  //   ]
-  // }) 
-  
-
-async function deployNFT(name, symbol) {
+async function deployNFT(name, symbol, maxSupply, chainId) {
   try {
+    const account = privateKeyToAccount(pk)
+    var client 
+    var chain
+
+    if (chainId == '84532'){
+      chain = baseSepolia
+      client = createWalletClient({
+        account,
+        chain: chain,
+        transport: http('https://sepolia.base.org')
+      }).extend(publicActions)
+    }else  if (chainId == '59144'){
+      chain = lineaTestnet
+      client = createWalletClient({
+        account,
+        chain: chain,
+        transport: http('https://sepolia.base.org')
+      }).extend(publicActions)
+    }else  if (chainId == '11155420'){
+      chain = optimismSepolia
+      client = createWalletClient({
+        account,
+        chain: chain,
+        transport: http('https://sepolia.base.org')
+      }).extend(publicActions)
+    }else  if (chainId == '534351'){
+      chain = scrollSepolia
+      client = createWalletClient({
+        account,
+        chain: chain,
+        transport: http('https://sepolia.base.org')
+      }).extend(publicActions)
+    }else  if (chainId == '48899'){
+      chain = {
+        name : "Zircuit",
+        id: 48899
+      }
+      client = createWalletClient({
+        account,
+        chain: chain,
+        transport: http('https://sepolia.base.org')
+      }).extend(publicActions)
+    }else{
+      chainName = sepolia
+      client = createWalletClient({
+        account,
+        chain: chain,
+        transport: http('https://sepolia.base.org')
+      }).extend(publicActions)
+    }
+    
+
+    const MortyMee6Nft = mintclub
+      // .network(chain)
+      .withWalletClient(client)
+      // .withAccount('0x1671aad14B578C74259b682fac2111845BD0964D', window.ethereum) 
+      // .withAccount(address, window.sepolia)
+      // .withPrivateKey(pk)
+      // .withWalletClient({   
+      //   // account: address,  
+      //   transport: [
+      //     'https://rpc.sepolia.ethpandaops.io',
+      //     'https://eth-sepolia-public.unifra.io',
+      //     'https://endpoints.omniatech.io/v1/eth/sepolia/public',
+      //     'https://ethereum-sepolia.publicnode.com',
+      //     'https://eth-sepolia.public.blastapi.io',
+      //     'https://rpc.notadegen.com/eth/sepolia',
+      //     'https://eth-sepolia.api.onfinality.io/public',
+      //     'https://rpc-sepolia.rockx.com',
+      //     'https://rpc.sepolia.org',
+      //     'https://rpc2.sepolia.org',
+      //     'https://sphinx.shardeum.org',
+      //   ]
+      // }) 
+
     // const creationFee = await mintclub.network('sepolia').bond.getCreationFee();
 
     // client.writeContract({
@@ -81,8 +123,8 @@ async function deployNFT(name, symbol) {
   
 
     // 🚀 Deploying $MNM-NFT tokens
-    await MortyMee6Nft.nft("TPH").create({
-      name: "TPH",
+    await MortyMee6Nft.nft(symbol).create({
+      name: name,
       // Base Network WETH
       reserveToken: {
         address: '0xb16f35c0ae2912430dac15764477e179d9b9ebea',
@@ -115,7 +157,7 @@ async function deployNFT(name, symbol) {
 }
 
 async function nftMint() {
-  await mintclub.network(sepolia.id).token('0x0b697d5d7265969b80b7a004eae551b9953f69a3').sell({
+  await mintclub.network(chain.id).token('0x0b697d5d7265969b80b7a004eae551b9953f69a3').sell({
     amount: 1,
     recipient: '0x348b735403992203a768751c32871E2e4f462Bc7',
     onSuccess: function(receipt) {
@@ -164,9 +206,11 @@ router.get('/', exampleMiddleware, (req, res) => {
    // Retrieve query parameters
    const name = req.query.name;
    const symbol = req.query.symbol;
+   const maxSupply = req.query.maxSupply;
+   const chainId = req.query.symbol;
 
     // Call the function to deploy the NFT
-    deployNFT(name, symbol);
+    deployNFT(name, symbol, maxSupply, chainId);
     res.json("Test deployNFT End");
 });
 
