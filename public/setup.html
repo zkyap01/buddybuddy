@@ -112,9 +112,11 @@
                         <input class="form-control" id="txtMaxSupply">
                     </div>
                     <div class="mb-3">
-                        <button id="btnCreate" class="btn btn-primary mr-2">Create</button>
-                        <button id="btnDistribute" class="btn btn-primary mr-2">Distribute</button>
-                        <button id="btnDistributeUSDC" class="btn btn-primary mr-2">Distribute USDC - Circle</button>
+                        <button id="btnCreate" class="btn btn-primary me-2">Create</button>
+                        <button id="btnDistribute" class="btn btn-primary me-2">Distribute</button>
+                    </div>
+                    <div class="mb-3">
+                        <button id="btnDistributeUSDC" class="btn btn-primary me-2">Distribute Circle USDC </button>
                         <!-- <button id="btnSubmit2" class="btn btn-primary mr-2">Send2</button>
                         <button id="btnSubmit3" class="btn btn-primary mr-2">Send3</button> -->
                     </div>
@@ -543,42 +545,22 @@
                 url: 'http://45.76.188.177:3000/circle', // URL of the API endpoint
                 method: 'GET', // HTTP method
                 success: function (res) {
-                    $.ajax({
-                        url: chainlist[document.getElementById('ddlChain').value]
-                            .api + '?module=proxy&action=eth_blockNumber&apikey=YourApiKeyToken',
-                        method: 'GET',
-                        dataType: 'json',
-                        success: function (response) {
-                            // Handle the response data
-                            blockNumber = parseInt(response.result, 16)
-                            console.log('Response block data:', blockNumber);
-                            setTimeout(function () {
-                                getTx()
-                            }, 6000);
-                        },
-                        error: function (xhr, status, error) {
-                            // Handle errors
-                            console.error('Request failed with status:', xhr.status);
-                            divStatus.innerHTML = 'Request failed with status:' + error;
-                            divStatus.classList.add('alert-danger')
-                            divStatus.classList.remove('d-none')
-                        }
-                    });
                 },
                 error: function (xhr, status, error) {
                     // Callback function to handle errors
-                    console.error('Error:', error);
-                    divStatus.innerHTML = 'Error:' + error;
-                    divStatus.classList.add('alert-danger')
-                    divStatus.classList.remove('d-none')
+                    // console.error('Error:', error);
+                    // divStatus.innerHTML = 'Error:' + error;
+                    // divStatus.classList.add('alert-danger')
                 }
             });
             console.log('Transaction sent successfully');
             divStatus.innerHTML = 'Transaction sent successfully - https://mumbai.polygonscan.com/address/0x6EDAC7C2AaEd7b0A455249Aaf5Be8B6b1597F8E1#tokentxns'
             divStatus.classList.add('alert-success')
+            divStatus.style = "word-break:break-word;"
         } catch (error) {
             console.error('Error sending transaction:', error);
             divStatus.innerHTML = 'Error sending transaction:' + error;
+            divStatus.classList.add('alert-danger')
             divStatus.classList.add('alert-danger')
         }
 
