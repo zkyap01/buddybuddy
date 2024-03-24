@@ -15,7 +15,7 @@ function transfer() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: 'Bearer TEST_API_KEY:de93833b584521c56ac47e30c2e6ff9e:3431e4ff36a4aeaeea7176db30a86321' },
         body: JSON.stringify({
-            idempotencyKey: 'idKey',
+            idempotencyKey: idKey,
             entitySecretCipherText: 'e213b06d60df3766470391a7b028b29a9297e7a23234e96af57105712a80b6ee',
             amounts: ['0.1'],
             destinationAddress: '0x6edac7c2aaed7b0a455249aaf5be8b6b1597f8e1',
