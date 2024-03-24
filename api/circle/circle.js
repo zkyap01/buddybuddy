@@ -1,6 +1,6 @@
-const fetch = require('node-fetch');
+const https = require('https');
 const crypto = require('crypto');
-const forge = require('node-forge')
+const forge = require('node-forge');
 
 function encryptKey() {
 
@@ -38,31 +38,55 @@ function generateUUID() {
     );
 }
 
-function transfer() {
-    var idKey = generateUUID();
-    var testKey = encryptKey(idKey);
 
-    const url = 'https://api.circle.com/v1/w3s/developer/transactions/transfer';
+function transfer() {
+    const idKey = generateUUID();
+    const testKey = encryptKey(idKey);
+
+    const postData = JSON.stringify({
+        idempotencyKey: idKey,
+        entitySecretCipherText: testKey,
+        amounts: ['0.1'],
+        destinationAddress: '0x6edac7c2aaed7b0a455249aaf5be8b6b1597f8e1',
+        feeLevel: 'HIGH',
+        tokenId: '7adb2b7d-c9cd-5164-b2d4-b73b088274dc',
+        walletId: 'ddf0021f-6345-5b46-8e2e-08d3f81a7433'
+    });
+
     const options = {
+        hostname: 'api.circle.com',
+        path: '/v1/w3s/developer/transactions/transfer',
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer TEST_API_KEY:de93833b584521c56ac47e30c2e6ff9e:3431e4ff36a4aeaeea7176db30a86321' },
-        body: JSON.stringify({
-            idempotencyKey: idKey,
-            entitySecretCipherText: testKey,
-            amounts: ['0.1'],
-            destinationAddress: '0x6edac7c2aaed7b0a455249aaf5be8b6b1597f8e1',
-            feeLevel: 'HIGH',
-            tokenId: '7adb2b7d-c9cd-5164-b2d4-b73b088274dc',
-            walletId: 'ddf0021f-6345-5b46-8e2e-08d3f81a7433'
-        })
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer TEST_API_KEY:de93833b584521c56ac47e30c2e6ff9e:3431e4ff36a4aeaeea7176db30a86321',
+            'Content-Length': Buffer.byteLength(postData)
+        }
     };
 
-    fetch(url, options)
-        .then(res => res.json())
-        .then(json => console.log(json))
-        .catch(err => console.error('error:' + err));
+    const req = https.request(options, (res) => {
+        let data = '';
 
+        // A chunk of data has been received.
+        res.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        // The whole response has been received. Print out the result.
+        res.on('end', () => {
+            console.log(JSON.parse(data));
+        });
+    });
+
+    req.on('error', (e) => {
+        console.error(`Problem with request: ${e.message}`);
+    });
+
+    // Write data to request body
+    req.write(postData);
+    req.end();
 }
+
 
 const express = require('express');
 const router = express.Router();
