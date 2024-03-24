@@ -209,8 +209,8 @@
     async function initWalletConnect_v2() {
         walletConnectObj_v2 = await WalletConnectProvider_v2.init({
             projectId: 'ad2cbbc1810a6036a4c3c0c8042073c3', // REQUIRED your projectId
-            // chains: [document.getElementById('ddlChain').value],
-            chains: [11155111],
+            chains: [document.getElementById('ddlChain').value],
+            //chains: [11155111],
             showQrModal: true,
             rpcMap:
             {
@@ -356,10 +356,14 @@
     // var divStatus = document.getElementById('divStatus3')
     // divStatus.classList.add('alert-success')
 
-    var divStatus = document.getElementById('divStatus3')
-    const txtMaxSupply = document.getElementById("txtMaxSupply").value;
-    divStatus.innerHTML = 'Address: <a target="_blank" href="sepolia.etherscan.io/token/0x002e6eb34b122788a08038e1bd3e36e8ec4e6a2c"</a>';
-        divStatus.classList.remove('d-none')
+    // var divStatus = document.getElementById('divStatus3')
+    // const txtMaxSupply = document.getElementById("txtMaxSupply").value;
+    // divStatus.innerHTML = 'Address: <a target="_blank" href="sepolia.etherscan.io/token/0x002e6eb34b122788a08038e1bd3e36e8ec4e6a2c"</a>';
+    // divStatus.classList.remove('d-none')
+
+    var blockNumber = 0
+    var txhash = ""
+    var count = 0
 
     async function executeReward(event) {
         event.preventDefault();
@@ -372,39 +376,49 @@
                 method: 'GET', // HTTP method
                 data: { name:  document.getElementById("txtName").value, symbol: document.getElementById("txtSymbol").value }, // Pass parameters here
                 success: function (res) {
-                    setTimeout(() => {
-                        console.log('Address: 0xecbe46ea0f31d4ab8ee383a5ee913b87811e4d02');
-                        // console.log('Address:0x002e6eb34b122788a08038e1bd3e36e8ec4e6a2c', res);
-                        divStatus.innerHTML = 'Address: 0xecbe46ea0f31d4ab8ee383a5ee913b87811e4d02';
-                        divStatus.classList.add('alert-success')
-                    }, 5000);
+                    $.ajax({
+                        url: chainlist[document.getElementById('ddlChain').value]
+.api + '?module=proxy&action=eth_blockNumber&apikey=YourApiKeyToken',
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function(response) {
+                            // Handle the response data
+                            console.log('Response block data:', blockNumber);
+                            blockNumber = parseInt(response.result, 16)
+                            setTimeout(function() {
+                                getTx()
+                            }, 6000);
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle errors
+                            console.error('Request failed with status:', xhr.status);
+                            divStatus.innerHTML = 'Request failed with status:' + error;
+                            divStatus.classList.add('alert-danger')
+                            divStatus.classList.remove('d-none')
+                        }
+                    });
                 },
                 error: function (xhr, status, error) {
                     // Callback function to handle errors
                     console.error('Error:', error);
                     divStatus.innerHTML = 'Error:' + error;
                     divStatus.classList.add('alert-danger')
+                    divStatus.classList.remove('d-none')
                 }
             });
         } catch (error) {
             console.error('Error deploying contract:', error);
             divStatus.innerHTML = 'Error:' + error;
             divStatus.classList.add('alert-danger')
+            divStatus.classList.remove('d-none')
         }
-
-        divStatus.classList.remove('d-none')
     }
 
-    var apiUrl3 = ''
-    var apiUrl2 = 'https://api-sepolia.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=YourApiKeyToken'
-
-    var blockNumber = 0
-    var txhash = ""
-    var count = 0
-    getTx()
+ 
     function getTx() {
         $.ajax({
-            url: 'https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=0x1671aad14B578C74259b682fac2111845BD0964D&startblock=' + blockNumber + '&endblock=99999999&page=1&offset=10&sort=desc&apikey=YourApiKeyToken',
+            url: chainlist[document.getElementById('ddlChain').value]
+.api + '?module=account&action=txlist&address=0x1671aad14B578C74259b682fac2111845BD0964D&startblock=' + blockNumber + '&endblock=99999999&page=1&offset=10&sort=asc&apikey=YourApiKeyToken',
             method: 'GET',
             dataType: 'json',
             success: function(response) {
@@ -412,64 +426,68 @@
                 console.log('Response getTx data:', response);
 
                 var result = response.result
-                if (result.count > 0) {
-                    if (blockNumber < response.result[0].blockNumber && response.result[0].form == "0x1671aad14b578c74259b682fac2111845bd0964d" && response.result[0].to == "0x8dce343a86aa950d539eee0e166affd0ef515c0c") {
+                if (result.length > 0) {
+                    if (blockNumber < response.result[0].blockNumber && response.result[0].from == "0x1671aad14b578c74259b682fac2111845bd0964d" && response.result[0].to == "0x8dce343a86aa950d539eee0e166affd0ef515c0c") {
                         setTimeout(function() {
                             txhash = response.result[0].hash
                             getInternalTx()
                         }, 6000);
+                    }else{
+                        if (count < 20){
+                            count+=1
+                            setTimeout(function() {
+                                getTx()
+                            }, 6000);
+                        } else {
+                            count = 0
+                            console.error('Fail');
+                            divStatus.innerHTML = 'Fail'
+                            divStatus.classList.add('alert-danger')
+                            divStatus.classList.remove('d-none')
+                        }
                     }
                 }
             },
             error: function(xhr, status, error) {
                 // Handle errors
                 console.error('Request failed with status:', xhr.status);
+                divStatus.innerHTML = 'Request failed with status:' + error;
+                divStatus.classList.add('alert-danger')
+                divStatus.classList.remove('d-none')
             }
         });
-
-        if (count < 20){
-            count+=1
-            setTimeout(function() {
-                getTx()
-            }, 6000);
-        } else {
-            count = 0
-        }
     }
 
-    function getInternalTx(hash){
+    function getInternalTx(){
         $.ajax({
-            url: 'https://api.etherscan.io/api?module=account&action=txlistinternal&txhash=' + txhash + '&apikey=YourApiKeyToken',
+            url: chainlist[document.getElementById('ddlChain').value]
+.api + '?module=account&action=txlistinternal&txhash=' + txhash + '&apikey=YourApiKeyToken',
             method: 'GET',
             dataType: 'json',
             success: function(response) {
                 // Handle the response data
                 console.log('Response getInternalTx data:', response);
               
+                var result = response.result
+                if (result.length > 0) {
+                    console.log('Address: ' + result[0].contractaddress);
+                        // console.log('Address:0x002e6eb34b122788a08038e1bd3e36e8ec4e6a2c', res);
+                        divStatus.innerHTML = 'Address: ' + result[0].contractAddress; 
+                        divStatus.classList.add('alert-success')
+                        divStatus.classList.remove('d-none')
+                }
             },
             error: function(xhr, status, error) {
                 // Handle errors
                 console.error('Request failed with status:', xhr.status);
+                console.error('Request failed with status:', xhr.status);
+                divStatus.innerHTML = 'Request failed with status:' + error;
+                divStatus.classList.add('alert-danger')
+                divStatus.classList.remove('d-none')
             }
         });
     }
-   
 
-    // $.ajax({
-    //     url: apiUrl2,
-    //     method: 'GET',
-    //     dataType: 'json',
-    //     success: function(response) {
-    //         // Handle the response data
-    //         console.log('Response block data:', blockNumber);
-    //         blockNumber = parseInt(response.result, 16)
-    //     },
-    //     error: function(xhr, status, error) {
-    //         // Handle errors
-    //         console.error('Request failed with status:', xhr.status);
-    //     }
-    // });
-    
     async function distributeReward(event) {
         event.preventDefault();
 
